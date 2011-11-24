@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  description: MyText
+  user_id: 1
+  title: MyString
+  category_id: 1
+  dealine: 2011-10-29 02:32:39
+
+two:
+  description: MyText
+  user_id: 1
+  title: MyString
+  category_id: 1
+  dealine: 2011-10-29 02:32:39

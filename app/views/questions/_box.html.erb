@@ -1,0 +1,15 @@
+<div class="question_thread">
+  <div class="thumb-vote-sec"> <%= image_tag question.user.avatar(:tiny) %> <small><%= question.user.name %></small>
+    <div class="ranking"></div>
+  </div>
+  <div class="description">
+    <h2><%= question.title %></h2>
+    <p><%= truncate(question.description, :length  => 150) %><a href="#" class="inline">read more...</a> </p>
+    <p class="user-log"><a href="<%=question_path(question)%>"><%= question.answers.count %><small>Answers</small></a>  Posted: <small><%= time_ago_in_words(question.created_at)%> ago</small> 
+		<% unless question.owner?(current_user) %><a style="cursor:pointer;" class="add-answer"> Answer This Question</a> <% end %>
+	</p>
+    <a class="button orange" href="#">Follow</a> </div>
+		<%= hidden_field_tag 'question_id', question.id %>
+</div>
+
+

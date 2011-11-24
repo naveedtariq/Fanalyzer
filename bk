@@ -1,0 +1,69 @@
+
+
+var toggleLoading = function(){
+	console.log("going");
+}
+
+var before_setup= function(){
+	$('.er_span').remove();
+}
+
+var wajgaye= function(evt, xhr, status, error){
+	var er = JSON.parse(xhr.responseText);
+	show_errors(er);
+}
+var go_back = function(){
+	$('#reg-success').hide('slow');
+	$('#email-reg').hide('slow');
+	$('#social-reg').hide('slow');
+	$('#reg-home').show();
+
+}
+var chagaye= function(evt, data, status, xhr){
+	$('#email-reg').hide('slow');
+	$('#reg-success').show();
+}
+
+var show_errors= function(errors){
+	$.each(errors, function(k, v){
+		$('#user_'+k).after('<span class="er_span" style="color:red;">'+k+' '+v+'</span>');
+	});
+}
+
+var show_simple_reg = function(){
+	$('#reg-home').hide('slow');
+	$('#email-reg').show();
+}
+
+var show_social_form= function() {
+  $('#reg-home').hide('slow');
+  $('#email-reg').hide('slow');
+  $('#social-reg').show();
+}
+
+$(document).ready(function() {
+	$("#user_new")
+		.bind('ajax:beforeSend', before_setup)
+		.bind('ajax:complete', toggleLoading)
+		.bind('ajax:success', chagaye)
+		.bind('ajax:error', wajgaye)
+
+	$("#social-form")
+		.bind('ajax:beforeSend', before_setup)
+		.bind('ajax:complete', toggleLoading)
+		.bind('ajax:success', chagaye)
+		.bind('ajax:error', wajgaye)
+	
+	$(".back-btn").click(go_back);
+
+	$("#email-btn").click(show_simple_reg);
+
+	$('.social-reg').click(function() {
+		var left = (screen.width/2)-(600/2);
+		var top = (screen.height/2)-(300/2);
+		var w = window.open(this.href, 'Link Your '+$(this).attr('title')+'Account', config='top='+top+', left='+left+',height=500, width=600, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, directories=no, status=no');
+		return false;
+ });
+
+});
+        

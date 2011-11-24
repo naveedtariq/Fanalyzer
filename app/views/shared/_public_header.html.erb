@@ -1,0 +1,22 @@
+  <div id="header-bar">
+    <div id="header-box"> <a href="index.html"><%= image_tag 'logo.png', :id => 'landing-logo' %> </a>
+      <div id="signin-box">
+          <div id="input-box-container">
+					<%= form_for(resource, :as => resource_name, :id => 'login-form', :url => session_path(resource_name)) do |f| %>
+						<%= f.text_field :email, :size => "", :placeholder => "Email", :class => "placeholder" %>
+            <div class="userIco"></div>
+
+						<%= f.password_field :password, :size => "", :placeholder => "Password", :class => "placeholder" %>
+            <div class="passIco"></div>
+
+            <button class="button seaGreen" id="landing-signin-btn">Login</button>
+							<div id="remember-me-container">
+								<%= f.check_box :remember_me %> <%= f.label :remember_me %>
+							</div>
+							<a href="#" id="forget-pwd-link">Forgot password?</a>
+
+          </div>
+					<% end %>
+      </div>
+    </div>
+  </div>

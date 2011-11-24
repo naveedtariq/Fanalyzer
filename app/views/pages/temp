@@ -1,0 +1,27 @@
+<div class='q' style='clear:both;'>
+<div style="float:left;">
+	<%= image_tag question.user.avatar(:small) %>
+
+</div>
+<h2> <%=question.title%> </h2>
+<p><%=question.category.name %> </p>
+<p> <%= question.description %></p>
+<p> <%= link_to 'Answer', "", :class => "new_answer" %> </p>
+<%= render :partial => 'answers/listing' , :locals => {:answers => question.answers}%>
+<input type='hidden' name='q_id' id='q_id' value = '<%= question.id %>' >
+</div>
+
+<div style="float:left;width:30%">
+<%= image_tag current_user.avatar(:thumb) %>
+<div stlyle="clear:both;" ></div>
+<%= current_user.name %> !
+<br/>
+<%= link_to 'Logout', sign_out_path %>
+<%= link_to 'Edit Profile', edit_user_path(current_user) %>
+<%= link_to 'Post A Question', new_question_path %>
+</div>
+<div style="float:left;width:70%">
+	<% @recent_questions.each do |question| %>
+			<%= render :partial => 'questions/box', :locals => {:question => question} %>
+	<% end %>
+</div>

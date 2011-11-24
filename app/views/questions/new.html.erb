@@ -1,0 +1,28 @@
+<script type="text/javascript">
+	$(function() {
+		$( "#datepicker" ).datepicker();
+		$( "#datepicker" ).datepicker( "option", "dateFormat", 'DD, d MM, yy' );
+	});
+	</script>
+<div class="thicky-box">
+	<div class="generic_boxes"> <h2> Ask a <span>Question</span></h2>
+		<div class="genericThick"> 
+			<%= form_for(@question, :html => {:class => "thickyBoxForm"}) do |f| %>
+			<div class="rowElem">
+				<%= f.label :title %>
+				<%= f.text_field :title, :placeholder => 'Title' %> <br />
+			</div>
+			<%= f.text_area :description, :rows => "5", :columns => "70", :placeholder => 'Enter Detail here' %> <br />
+			 <input type="" onClick="tb_remove()" value="" class="removeBox"/>
+				<div class="rowElem" style="margin: 8px 0 0 63px;width: 537px;">    
+					<label>Need and answer by: </label>
+				 <input type="text" class="textFieldCalender" name="" id="datepicker" style="width:175px;">
+					<%= collection_select(:question, :category_id, @categories, :id, :name, :class => "skinn") %>
+			</div>
+		<div class="rowElem">
+				<%= f.submit "Post", :class => "button seaGreen" %>
+			</div>
+<% end %>
+		</div>
+		</div>
+	</div>

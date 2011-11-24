@@ -1,0 +1,59 @@
+<script id="question-box" type="x-tmpl-mustache">
+<div class="question_thread">
+  <div class="thumb-vote-sec"> <img src="{{user_image}}" /> <small>{{user_name}}</small>
+    <div class="ranking"></div>
+  </div>
+  <div class="description">
+		<a href="{{question_url}}" > <h2>{{title}}</h2> </a>
+    <p>{{description}}<a href="{{question_url}}" class="inline">read more...</a> </p>
+    <p class="user-log"><a href="{{question_url}}">{{num_answers}}<small>Answers</small></a>  Posted: <small>{{posted_at}} ago</small> 
+		{{#can_answer}}
+		<a style="cursor:pointer;" class="add-answer"> Answer This Question</a>
+		{{/can_answer}}
+	</p>
+		{{#following}}
+			<a class="button orange" href="#">Follwing</a> </div>
+		{{/following}}
+		{{^following}}
+			<a class="button orange" href="#">Follow</a> </div>
+		{{/following}}
+		<input type='hidden' name='question_id' id='question_id' value = '{{id}}' />
+</div>
+
+</script>
+<script id="answer-box" type="x-tmpl-mustache">
+<div class="voter_thread">
+  <div class="vote-sec "> <a class="up-thumb" >up thumb</a> <a class="down-thumb tipsy" title="Vote Down">down thumb</a> <small class="voteTag">Vote</small> </div>
+  <div class="vote-sec "> <img src ="{{user_image}}" /> <small>{{user_name}}</small>
+    <div class="ranking"></div>
+  </div>
+  <div class="voter-description">
+    <h2>{{title}}</h2>
+    <p>{{text}} </p>
+    <p class="user-log-voter"><span class="vote-count" >{{up_votes}}</span><small>Votes</small> - {{num_comments}} <small class="cmnt" style="cursor:pointer;">Comments</small></p>
+  </div>
+	<input type='hidden' name='answer_id' value = '{{id}}' id='answer_id' />
+</div>
+</script>
+<script id="comment-box" type="x-tmpl-mustache">
+	<div  style="float: left; border: 1px solid rgb(204, 204, 204); margin: 5px; width: 94.5%;">
+		<div style="float:left;padding:5px;">
+			<img width="30px" src="{{user_image}}"><br>
+		</div>
+		<input type="hidden" class="comment_id" value="{{id}}" />
+		<p style="font-size:10px;margin-left:5px;float:left;"> {{comment}}</p>
+		<br>
+		<p style="vertical-align:bottom;"> {{user_name}}</p>
+	</div>
+</script>
+<script id="comments-box" type="x-tmpl-mustache">
+<div class="comment-box" style="float: left; border: 1px solid rgb(204, 204, 204); width: 500px; min-height: 100px; margin-top: 20px; padding: 5px;">
+{{#comments}}
+		{{>comment}}
+{{/comments}}
+<div class="comment-container" style="margin: 5px;">
+<textarea rows="1" cols="54" class="comment-area"></textarea>
+<input type="button" class="post-comment" style="float: right;margin-right:16px;" value="comment">
+</div>
+</div>
+</script>

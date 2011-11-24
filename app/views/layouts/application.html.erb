@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<head>
+  <%= csrf_meta_tags %>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Fanaylyzer</title>
+<!-- Main Controlling Styles -->
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'uniform' %>
+<%= stylesheet_link_tag 'thickbox' %>
+<%= stylesheet_link_tag 'jquery-ui' %>
+<%= javascript_include_tag "application" %>
+<%= javascript_include_tag 'thickbox' %>
+
+</head>
+<body>
+<div id="main-wrapper">
+	<%= render :partial => 'shared/header' %>
+	<%= render :partial => 'shared/search_bar' %>
+	<div id="mainContents">
+			<%= yield %>
+	</div>
+  <div class="clear"></div>
+</div>
+	<%= render :partial => 'shared/footer' %>
+<%= javascript_include_tag 'uniform-js' %>
+
+    <script type="text/javascript" charset="utf-8">
+      $(function(){
+        $("#user-control-panel select").uniform();
+      });
+    </script>
+<%# javascript_include_tag 'custom-js' %>
+</body>
+</html>

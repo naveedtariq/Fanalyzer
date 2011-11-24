@@ -1,0 +1,77 @@
+<script type="text/javascript">
+	(function($) {
+			$(document).ready(function() {
+					$('#wysiwyg').wysiwyg();
+			});
+	})(jQuery);
+</script>
+<%= stylesheet_link_tag 'jquery.wysiwyg' %>
+<div id="landing-left-box-inner-no-tabs">
+
+		<%= render :partial => 'questions/box', :locals => {:question => @question} %>
+		<% @question.answers.each do |answer| %>
+			<%= render :partial => 'answers/box', :locals => {:answer=> answer } %>
+		<% end %>
+      
+
+<div class="a_area" style="margin-top: 10px;"><textarea columns="50" rows="4" placeholder="Type your answer here" class="answer_area" style="width: 565px;"> </textarea> <br> <br><input type="submit" value="answer" class="post_answer_page"> <input type="button" value="cancel" class="cancel-answer"></div>
+</div>
+
+      <div style="margin:24px 0 10px 0; width: 244px;" id="landing-right-box">
+        <div class="generic_boxes">
+          <h2>most talked <span>about players</span></h2>
+          <div class="box-inner">
+            <ul>
+              <li><a href="#">Sami Mughal</a></li>
+              <li><a href="#">Abid Mehbood</a></li>
+              <li><a href="#">Navid Butt</a></li>
+              <li><a href="#">Munir Ahmed</a></li>
+              <li><a href="#">Mike anderson</a></li>
+
+            </ul>
+           
+          </div>
+        </div>
+        <a class="viewall-inline" href="#">View All</a>
+      </div>
+      <div style="margin:0px 0 10px 0; width: 244px;" id="landing-right-box">
+        <div class="generic_boxes">
+          <h2>Open <span>Questions</span></h2>
+          <div class="box-inner">
+            <ul>
+              <li><a href="#">Should i start alpha or beta?</a></li>
+              <li><a href="#">Why i always loose ?</a></li>
+              <li><a href="#">Who should bat first ?</a></li>
+              <li><a href="#">Is there a way to do everything ?</a></li>
+              <li><a href="#">How it looks like..</a></li>
+
+            </ul>
+           
+          </div>
+        </div>
+        <a class="viewall-inline" href="#">View All</a>
+      </div>
+      
+      <div style="margin:0px 0 10px 0; width: 244px;" id="landing-right-box">
+        <div class="generic_boxes">
+          <h2>Top <span>Contributors</span></h2>
+          <div class="box-inner">
+            <ul>
+           
+             <a class="contributor" href="#"><img alt="Fanalyzer Contributor Image" src="images/contributer_01.jpg">Abid Mehbood</a>
+             <a class="contributor" href="#"><img alt="Fanalyzer Contributor Image" src="images/contributer_02.jpg">Sami Mughal</a>
+             <a class="contributor" href="#"><img alt="Fanalyzer Contributor Image" src="images/contributer_03.jpg">Navid Butt</a>
+             <a class="contributor" href="#"><img alt="Fanalyzer Contributor Image" src="images/contributer_02.jpg">Sami Mughal</a>
+             <a class="contributor" href="#"><img alt="Fanalyzer Contributor Image" src="images/contributer_01.jpg">Abid Mehbood</a>
+             <a class="contributor" href="#"><img alt="Fanalyzer Contributor Image" src="images/contributer_03.jpg">Navid Butt</a>
+  
+     
+
+            </ul>
+           
+          </div>
+        </div>
+
+      </div>
+      
+      

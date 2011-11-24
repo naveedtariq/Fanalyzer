@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Fanaylyzer</title>
+<!-- Main Controlling Styles -->
+<link href="styles/main.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="styles/uniform.css" type="text/css" media="screen">
+<!-- Blue Theme Styles -->
+<!--[if IE]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div id="main-wrapper">
+  <div id="header-bar">
+    <div id="header-box"> <a href="index.html"><img src="images/logo.png" id="landing-logo" alt="fanalyzer"></a>
+      <div id="user-control-panel"> <img src="images/signup-thumb.jpg" alt="User Thumbnail" />
+        <form class="" action="">
+          <select name="">
+            <option value="Sami Mughal">Sami Mughal</option>
+            <option value="Inbox">Inbox</option>
+            <option value="Logout">Logout</option>
+            <option value="Profile">Profile</option>
+          </select>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div id="mainContents">
+    <div id="full_width">
+      <div class="profile-left">
+        <div class="profile-state"> <img src="./images/profile-lrg-avatar.jpg"  /> <small>Sami Mughal</small>
+          <div class="ranking"></div>
+          <p class="user-log">23<small>Answers</small></p>
+          <p class="user-log">23<small>Questions</small></p>
+        </div>
+      </div>
+      <div class="profile-right">
+        <h2>Profile Settings</h2>
+        <div id="profile-change">
+          <form class="" action="">
+            <div id="">
+              <div class="rowElem">
+                <label>First Name</label>
+                <input type="text"  class="placeholder">
+              </div>
+              <div class="rowElem">
+                <label>Last Name</label>
+                <input type="text"  class="placeholder">
+              </div>
+            <a href="#" class="inline">Edit</a>
+            </div>
+            
+          </form>
+        </div>
+        <div class="change-photo"> <img src="./images/question-lrg-thumb.jpg"  /> <a href="#" class="inline">Change</a> </div>
+      </div>
+      <div class="profile-right">
+        <h2>Account Settings</h2>
+    
+          <button class="button orange hideAction" >Change Password</button>
+          <form class="changePassword" action="">
+            <div id="profile-change">
+               <div class="rowElem">
+              <label>Old Password</label>
+              <input type="text" placeholder="********" class="placeholder">
+              </div>
+                 <div class="rowElem">
+              <label>New Password</label>
+              <input type="text" placeholder="********"  class="placeholder">
+              </div>
+                 <div class="rowElem">
+              <label>Confirm Password</label>
+              <input type="text" placeholder="********"  class="placeholder">
+</div>
+            </div>
+            <div class="clear"></div>
+           <a href="#" class="inline">Change</a> |
+            <a href="#" class="inline">Cancel</a>
+
+          </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+<div id="footer" style="height:30px;">
+  <div class="footTopMore">
+    <div class="innerContents">
+      <p>Fanalyzer on the web: &nbsp;<a title="Follow us on Twitter" class="twitter" target="_new" href="#">Twitter</a> <a title="Join us on Facebook" class="facebook" target="_new" href="#">Facebook</a> <a title="" class="blog" target="_new" href="#">Blog</a></p>
+      <ul>
+        <li><a title="" target="_new" href="#">Blog</a></li>
+        <li><a title="Contact us" href="contact.html">Contact</a></li>
+        <li><a title="Visit our support site" target="_new" href="#">FAQ</a></li>
+        <li><a title="Terms of Use" href="http://www.Echodemic.com/terms">About</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="innerContents-copyright">
+    <p class="copyright-info">&copy; Copyright 2011 Fanalyzer. All rights reserved.</p>
+  </div>
+</div>
+</div>
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js'></script> 
+<script type='text/javascript' src='js/uniform-js.js'></script> 
+<script type="text/javascript" src="js/thickbox.js"></script>
+
+
+
+<script type="text/javascript" charset="utf-8">
+      $(function(){
+        $("#user-control-panel select").uniform();
+      });
+
+	$(".hideAction").click(function(){
+	  $("form.changePassword").slideToggle("slow");
+	  $(this).toggleClass("active");
+	});
+	
+
+    </script> 
+    
+
+<script type='application/javascript' src='js/custom-js.js'></script>
+</body>
+</html>
