@@ -5,13 +5,14 @@ gem 'rails', '3.1.1'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql'
-gem 'devise'
+gem 'mysql2'
+gem 'devise', '1.4.9'
 gem 'paperclip'
 gem 'therubyracer', '>= 0.9.8'
 gem "oauth2","0.4.1"
 gem 'omniauth', "0.2.6"
 gem 'acts_as_commentable'
+gem "js-routes"
 
 
 # Gems used only for assets and not required
