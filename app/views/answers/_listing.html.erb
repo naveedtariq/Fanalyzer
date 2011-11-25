@@ -1,7 +1,0 @@
-<div class='q_answers'>
-<p> <%= link_to answers.count.to_s+' Answers', "", :class => "all_q_answers" %> </p>
-<% answers.each do |answer| %>
-	<%= render :partial => 'answers/box', :locals => { :answer => answer } %>
-<% end %>
-</div>
-

@@ -1,0 +1,4125 @@
+  [1m[36m (384.0ms)[0m  [1mCREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (337.3ms)[0m  CREATE UNIQUE INDEX `unique_schema_migrations` ON `schema_migrations` (`version`)
+  [1m[36m (0.1ms)[0m  [1mSELECT `schema_migrations`.`version` FROM `schema_migrations` [0m
+Migrating to DeviseCreateUsers (20111020142246)
+  [1m[35m (192.8ms)[0m  CREATE TABLE `users` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `email` varchar(255) DEFAULT '' NOT NULL, `encrypted_password` varchar(128) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` int(11) DEFAULT 0, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `confirmation_token` varchar(255), `confirmed_at` datetime, `confirmation_sent_at` datetime, `name` varchar(255), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (351.5ms)[0m  [1mCREATE UNIQUE INDEX `index_users_on_email` ON `users` (`email`)[0m
+  [1m[35m (225.6ms)[0m  CREATE UNIQUE INDEX `index_users_on_reset_password_token` ON `users` (`reset_password_token`)
+  [1m[36m (41.1ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20111020142246')[0m
+Migrating to CreateUserTokens (20111020175557)
+  [1m[35m (131.6ms)[0m  CREATE TABLE `user_tokens` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `user_id` int(11), `provider` varchar(255), `uid` varchar(255), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (41.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20111020175557')[0m
+Migrating to AddTokenAndSecretToUserToken (20111020181138)
+  [1m[35m (216.0ms)[0m  ALTER TABLE `user_tokens` ADD `token` varchar(255)
+  [1m[36m (185.1ms)[0m  [1mALTER TABLE `user_tokens` ADD `secret` varchar(255)[0m
+  [1m[35m (32.7ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20111020181138')
+Migrating to AddPaperClipToUser (20111028202529)
+  [1m[36m (315.8ms)[0m  [1mALTER TABLE `users` ADD `avatar_file_name` varchar(255)[0m
+  [1m[35m (226.0ms)[0m  ALTER TABLE `users` ADD `avatar_content_type` varchar(255)
+  [1m[36m (201.1ms)[0m  [1mALTER TABLE `users` ADD `avatar_file_size` int(11)[0m
+  [1m[35m (217.8ms)[0m  ALTER TABLE `users` ADD `avatar_updated_at` datetime
+  [1m[36m (32.8ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20111028202529')[0m
+Migrating to CreateQuestions (20111028213239)
+  [1m[35m (80.5ms)[0m  CREATE TABLE `questions` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `description` text, `user_id` int(11), `title` varchar(255), `category_id` int(11), `dealine` datetime, `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (33.0ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20111028213239')[0m
+Migrating to CreateCategories (20111028213437)
+  [1m[35m (100.4ms)[0m  CREATE TABLE `categories` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `name` varchar(255), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (33.0ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20111028213437')[0m
+Migrating to CreateAnswers (20111028213612)
+  [1m[35m (156.2ms)[0m  CREATE TABLE `answers` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `question_id` int(11), `text` text, `user_id` int(11), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (32.8ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20111028213612')[0m
+Migrating to CreatePlayers (20111028213657)
+  [1m[35m (89.6ms)[0m  CREATE TABLE `players` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `name` varchar(255), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (33.0ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20111028213657')[0m
+Migrating to SeedCategories (20111028213948)
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `categories` (`created_at`, `name`, `updated_at`) VALUES ('2011-11-25 13:32:27', 'Sit/Start', '2011-11-25 13:32:27')[0m
+  [1m[35m (38.9ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO `categories` (`created_at`, `name`, `updated_at`) VALUES ('2011-11-25 13:32:27', 'Trade Advice', '2011-11-25 13:32:27')
+  [1m[36m (32.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO `categories` (`created_at`, `name`, `updated_at`) VALUES ('2011-11-25 13:32:27', 'General Roster Advice', '2011-11-25 13:32:27')[0m
+  [1m[35m (32.6ms)[0m  COMMIT
+  [1m[36m (33.2ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20111028213948')[0m
+Migrating to AddTitleToAnswer (20111113085243)
+  [1m[35m (207.1ms)[0m  ALTER TABLE `answers` ADD `title` varchar(255)
+  [1m[36m (32.8ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20111113085243')[0m
+Migrating to CreateComments (20111122132644)
+  [1m[35m (97.7ms)[0m  CREATE TABLE `comments` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `title` varchar(50) DEFAULT '', `comment` text, `commentable_id` int(11), `commentable_type` varchar(255), `user_id` int(11), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB
+  [1m[36m (234.1ms)[0m  [1mCREATE INDEX `index_comments_on_commentable_type` ON `comments` (`commentable_type`)[0m
+  [1m[35m (201.5ms)[0m  CREATE INDEX `index_comments_on_commentable_id` ON `comments` (`commentable_id`)
+  [1m[36m (192.4ms)[0m  [1mCREATE INDEX `index_comments_on_user_id` ON `comments` (`user_id`)[0m
+  [1m[35m (32.8ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20111122132644')
+Migrating to CreateVotes (20111122162750)
+  [1m[36m (97.8ms)[0m  [1mCREATE TABLE `votes` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `answer_id` int(11), `up` tinyint(1), `user_id` int(11), `created_at` datetime, `updated_at` datetime) ENGINE=InnoDB[0m
+  [1m[35m (74.6ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20111122162750')
+  [1m[36m (0.1ms)[0m  [1mSELECT `schema_migrations`.`version` FROM `schema_migrations` [0m
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 18:33:25 +0500
+  Processing by PagesController#index as HTML
+Rendered pages/_register_box.html.erb (135.3ms)
+Rendered pages/index.html.erb within layouts/home (157.0ms)
+Compiled main.css  (0ms)  (pid 7497)
+Compiled uniform.css  (0ms)  (pid 7497)
+Compiled application.js  (20ms)  (pid 7497)
+Compiled jquery.js  (2ms)  (pid 7497)
+Compiled jquery_ujs.js  (0ms)  (pid 7497)
+Compiled answers.js  (0ms)  (pid 7497)
+Compiled comments.js  (0ms)  (pid 7497)
+Compiled custom-js.js  (0ms)  (pid 7497)
+Compiled jquery.datepicker.js  (2ms)  (pid 7497)
+Compiled jquery-ui.js  (2ms)  (pid 7497)
+Compiled jquery.mustache.js  (0ms)  (pid 7497)
+Compiled jquery.wysiwyg.js  (1ms)  (pid 7497)
+Compiled mustache.js  (0ms)  (pid 7497)
+Compiled omniauth_callbacks.js  (0ms)  (pid 7497)
+Compiled pages.js  (2ms)  (pid 7497)
+Compiled questions.js  (5ms)  (pid 7497)
+Compiled thickbox.js  (0ms)  (pid 7497)
+Compiled tipsy.js  (0ms)  (pid 7497)
+Compiled uniform-js.js  (0ms)  (pid 7497)
+Compiled users.js  (0ms)  (pid 7497)
+Compiled wysiwyg.image.js  (0ms)  (pid 7497)
+Compiled wysiwyg.link.js  (0ms)  (pid 7497)
+Compiled wysiwyg.table.js  (0ms)  (pid 7497)
+Rendered shared/_public_header.html.erb (2.1ms)
+Rendered shared/_public_footer.html.erb (0.3ms)
+Completed 200 OK in 609ms (Views: 607.2ms | ActiveRecord: 1.9ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /main.css - 200 OK (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /jquery_ujs.js - 200 OK (2ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /answers.js - 200 OK (2ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /jquery.js - 200 OK (2ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /uniform.css - 200 OK (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /comments.js - 200 OK (2ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /jquery-ui.js - 200 OK (3ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /custom-js.js - 200 OK (2ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /jquery.datepicker.js - 200 OK (6ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /jquery.mustache.js - 200 OK (2ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /jquery.wysiwyg.js - 200 OK (3ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /pages.js - 200 OK (2ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /omniauth_callbacks.js - 200 OK (2ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /mustache.js - 200 OK (1ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /thickbox.js - 200 OK (7ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /uniform-js.js - 200 OK (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /wysiwyg.image.js - 200 OK (2ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /questions.js - 200 OK (2ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /users.js - 200 OK (1ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /tipsy.js - 200 OK (2ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /wysiwyg.table.js - 200 OK (2ms)
+
+
+Started GET "/assets/logo.png" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /logo.png - 200 OK (14ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /application.js - 200 OK (51ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /wysiwyg.link.js - 200 OK (2ms)
+
+
+Started GET "/assets/ask-question-ico.jpg" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /ask-question-ico.jpg - 200 OK (31ms)
+
+
+Started GET "/assets/follow-questions-ico.jpg" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /follow-questions-ico.jpg - 200 OK (7ms)
+
+
+Started GET "/assets/follow-player-ico.jpg" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /follow-player-ico.jpg - 200 OK (2ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.6ms)
+
+
+Started GET "/assets/pattern.png" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /pattern.png - 200 OK (4ms)
+
+
+Started GET "/assets/userIco.png" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /userIco.png - 200 OK (14ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/assets/passIco.png" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /passIco.png - 200 OK (42ms)
+
+
+Started GET "/assets/home-bg.jpg" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /home-bg.jpg - 200 OK (17ms)
+
+
+Started GET "/assets/forgot-pass-ico.png" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /forgot-pass-ico.png - 200 OK (2ms)
+
+
+Started GET "/assets/signup-fb-btn.png" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /signup-fb-btn.png - 200 OK (4ms)
+
+
+Started GET "/assets/signup-personal-btn.png" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /signup-personal-btn.png - 200 OK (2ms)
+
+
+Started GET "/assets/signup-twiiter-btn.png" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /signup-twiiter-btn.png - 200 OK (3ms)
+
+
+Started GET "/assets/footTopMore_link_icons.png" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+Served asset /footTopMore_link_icons.png - 200 OK (25ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 18:33:26 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/assets/cancelIco.png" for 127.0.0.1 at 2011-11-25 18:33:31 +0500
+Served asset /cancelIco.png - 200 OK (3ms)
+
+
+Started POST "/omniauth_callbacks/clear_omniauth" for 127.0.0.1 at 2011-11-25 18:33:37 +0500
+  Processing by OmniauthCallbacksController#clear_omniauth as */*
+Completed 500 Internal Server Error in 3ms
+
+NoMethodError (You have a nil object when you didn't expect it!
+You might have expected an instance of Array.
+The error occurred while evaluating nil.[]):
+  app/controllers/omniauth_callbacks_controller.rb:5:in `clear_omniauth'
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (0.6ms)
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (10.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+  Processing by PagesController#index as HTML
+Rendered pages/_register_box.html.erb (17.0ms)
+Rendered pages/index.html.erb within layouts/home (17.7ms)
+Rendered shared/_public_header.html.erb (1.5ms)
+Rendered shared/_public_footer.html.erb (0.0ms)
+Completed 200 OK in 43ms (Views: 27.2ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /answers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /comments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /custom-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /pages.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /tipsy.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /questions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 18:33:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/users/auth/facebook" for 127.0.0.1 at 2011-11-25 18:33:48 +0500
+  Processing by OmniauthCallbacksController#passthru as HTML
+  Parameters: {"provider"=>"facebook"}
+Rendered public/404.html (0.4ms)
+Completed 404 Not Found in 36ms (Views: 36.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/auth/facebook/callback?code=AQD_FfXFNFuJsLp5vjQJlfwIPW1S5xZL6qgp_ak4Fu4o80uDkcJvhINvlG_HZ6yUGoTx4jCR7wjZyd2pgALYTRRBYUU1qwzmhTTVUj-RYeBYsWGaM1NMX0Nfj1natEpPy1CCaUm3GTDpSSWpz6R_ntiLoDUI9rTN5GIDVtYwkzNQld-FKlHLc49J9-b2a8aXTVQ" for 127.0.0.1 at 2011-11-25 18:36:03 +0500
+  Processing by OmniauthCallbacksController#aho as HTML
+  Parameters: {"code"=>"AQD_FfXFNFuJsLp5vjQJlfwIPW1S5xZL6qgp_ak4Fu4o80uDkcJvhINvlG_HZ6yUGoTx4jCR7wjZyd2pgALYTRRBYUU1qwzmhTTVUj-RYeBYsWGaM1NMX0Nfj1natEpPy1CCaUm3GTDpSSWpz6R_ntiLoDUI9rTN5GIDVtYwkzNQld-FKlHLc49J9-b2a8aXTVQ", "provider"=>"facebook"}
+  [1m[36mUserToken Load (82.0ms)[0m  [1mSELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`provider` = 'facebook' AND `user_tokens`.`uid` = '626415268' LIMIT 1[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`email` = 'naved.tariq@gmail.com' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `users` (`avatar_content_type`, `avatar_file_name`, `avatar_file_size`, `avatar_updated_at`, `confirmation_sent_at`, `confirmation_token`, `confirmed_at`, `created_at`, `current_sign_in_at`, `current_sign_in_ip`, `email`, `encrypted_password`, `last_sign_in_at`, `last_sign_in_ip`, `name`, `remember_created_at`, `reset_password_sent_at`, `reset_password_token`, `sign_in_count`, `updated_at`) VALUES (NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2011-11-25 13:36:09', NULL, NULL, 'naved.tariq@gmail.com', '', NULL, NULL, 'Nav Eed', NULL, NULL, NULL, 0, '2011-11-25 13:36:09')
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO `user_tokens` (`created_at`, `provider`, `secret`, `token`, `uid`, `updated_at`, `user_id`) VALUES ('2011-11-25 13:36:09', 'facebook', NULL, 'AAACLsOwWeIYBAIme0vIq3YjRrt2R6G8VLQdZAZCl1ZBAvzZBZA9dSZAqJmKiz0fetCqO4amImbRmx5JZBW2W6BGr1JZBPHMiBmMZD', '626415268', '2011-11-25 13:36:09', 1)[0m
+[paperclip] Saving attachments.
+  [1m[35m (34.8ms)[0m  COMMIT
+Rendered omniauth_callbacks/facebook.html.erb (0.4ms)
+Completed 200 OK in 419ms (Views: 15.8ms | ActiveRecord: 120.6ms)
+
+
+Started GET "/omniauth_callbacks/oauth_data" for 127.0.0.1 at 2011-11-25 18:36:10 +0500
+  Processing by OmniauthCallbacksController#oauth_data as */*
+Completed 200 OK in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/complete_registration" for 127.0.0.1 at 2011-11-25 18:36:18 +0500
+  Processing by UsersController#complete_registration as JSON
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"L9cBqXe3etcOJVr9gVQsaNYmIK+EOUCG0DplJy0WRfU=", "user"=>{"email"=>"naved.tariq@gmail.com", "password"=>"[FILTERED]"}, "create-account"=>""}
+  [1m[36mUserToken Load (0.2ms)[0m  [1mSELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`uid` = '626415268' LIMIT 1[0m
+  [1m[35mUser Load (0.3ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (20.0ms)[0m  UPDATE `users` SET `encrypted_password` = '$2a$10$.5gO2z9mN6ydjQCt2hi6uuKK05FBCoZsNY8pEF0sux2bFYEOzGTeu', `updated_at` = '2011-11-25 13:36:19' WHERE `users`.`id` = 1
+[paperclip] Saving attachments.
+  [1m[36m (46.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`confirmation_token` = '1Gugx1XxZFjsqJ9xHsu6' LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  UPDATE `users` SET `confirmation_token` = '1Gugx1XxZFjsqJ9xHsu6', `confirmation_sent_at` = '2011-11-25 13:36:19', `updated_at` = '2011-11-25 13:36:19' WHERE `users`.`id` = 1
+[paperclip] Saving attachments.
+  [1m[36m (33.7ms)[0m  [1mCOMMIT[0m
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/devise-1.4.9/app/views/devise/mailer/confirmation_instructions.html.erb (0.7ms)
+
+Sent mail to naved.tariq@gmail.com (98ms)
+Date: Fri, 25 Nov 2011 18:36:20 +0500
+From: please-change-me-at-config-initializers-devise@example.com
+Reply-To: please-change-me-at-config-initializers-devise@example.com
+To: naved.tariq@gmail.com
+Message-ID: <4ecf99d482118_1d492bd7d5430848@nav-P5QL-PRO.mail>
+Subject: Confirmation instructions
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<p>Welcome naved.tariq@gmail.com!</p>
+
+<p>You can confirm your account through the link below:</p>
+
+<p><a href="http://localhost.com/users/confirmation?confirmation_token=1Gugx1XxZFjsqJ9xHsu6">Confirm my account</a></p>
+Completed 200 OK in 1568ms (Views: 1.4ms | ActiveRecord: 102.6ms)
+
+
+Started GET "/users/confirmation?confirmation_token=1Gugx1XxZFjsqJ9xHsu6" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+  Processing by Devise::ConfirmationsController#show as HTML
+  Parameters: {"confirmation_token"=>"1Gugx1XxZFjsqJ9xHsu6"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`confirmation_token` = '1Gugx1XxZFjsqJ9xHsu6' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  UPDATE `users` SET `confirmation_token` = NULL, `confirmed_at` = '2011-11-25 13:36:34', `updated_at` = '2011-11-25 13:36:34' WHERE `users`.`id` = 1
+[paperclip] Saving attachments.
+  [1m[36m (48.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mUPDATE `users` SET `last_sign_in_at` = '2011-11-25 13:36:34', `current_sign_in_at` = '2011-11-25 13:36:34', `last_sign_in_ip` = '127.0.0.1', `current_sign_in_ip` = '127.0.0.1', `sign_in_count` = 1, `updated_at` = '2011-11-25 13:36:34' WHERE `users`.`id` = 1[0m
+[paperclip] Saving attachments.
+  [1m[35m (47.6ms)[0m  COMMIT
+Redirected to http://localhost.com/home
+Completed 302 Found in 130ms
+
+
+Started GET "/home" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+  Processing by UsersController#home as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mQuestion Load (0.2ms)[0m  SELECT `questions`.* FROM `questions` ORDER BY id DESC LIMIT 3 OFFSET 0
+Rendered shared/_templates.html.erb (0.3ms)
+Rendered users/home.html.erb within layouts/application (1.9ms)
+Compiled thickbox.css  (8ms)  (pid 7497)
+Compiled jquery-ui.css  (6ms)  (pid 7497)
+Rendered shared/_header.html.erb (1.9ms)
+Rendered shared/_search_bar.html.erb (0.5ms)
+Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 122ms (Views: 89.1ms | ActiveRecord: 1.9ms)
+
+
+Started GET "/assets/thickbox.css?body=1" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+Served asset /thickbox.css - 200 OK (0ms)
+
+
+Started GET "/assets/jquery-ui.css?body=1" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+Served asset /jquery-ui.css - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+Served asset /answers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+Served asset /comments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+Served asset /custom-js.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:34 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /tipsy.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /questions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /pages.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/contributer_03.jpg" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_03.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/contributer_02.jpg" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_02.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/default-avatar-tiny.jpg" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /default-avatar-tiny.jpg - 200 OK (12ms)
+
+
+Started GET "/images/contributer_01.jpg" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_01.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/contributer_02.jpg" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_02.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/contributer_01.jpg" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_01.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/sprite.png" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /sprite.png - 200 OK (2ms)
+
+
+Started GET "/images/contributer_03.jpg" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_03.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/assets/searchbg.jpg" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /searchbg.jpg - 200 OK (3ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tinyBullet.png" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+Served asset /tinyBullet.png - 200 OK (3ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/questions" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+  Processing by QuestionsController#index as JSON
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mQuestion Load (0.1ms)[0m  SELECT `questions`.* FROM `questions` ORDER BY id DESC LIMIT 3 OFFSET 0
+Rendered questions/_listing.html.erb (50.4ms)
+Completed 200 OK in 83ms (Views: 54.1ms | ActiveRecord: 1.8ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 18:36:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/questions/new?height=155&width=300&modal=true&random=1322228211024" for 127.0.0.1 at 2011-11-25 18:36:51 +0500
+  Processing by QuestionsController#new as HTML
+  Parameters: {"height"=>"155", "width"=>"300", "modal"=>"true", "random"=>"1322228211024"}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mCategory Load (0.2ms)[0m  SELECT `categories`.* FROM `categories` 
+Rendered questions/new.html.erb (10.1ms)
+Completed 200 OK in 110ms (Views: 28.8ms | ActiveRecord: 3.6ms)
+
+
+Started GET "/questions/new?height=155&width=300&modal=true&random=1322228211017" for 127.0.0.1 at 2011-11-25 18:36:51 +0500
+  Processing by QuestionsController#new as HTML
+  Parameters: {"height"=>"155", "width"=>"300", "modal"=>"true", "random"=>"1322228211017"}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mCategory Load (0.1ms)[0m  SELECT `categories`.* FROM `categories` 
+Rendered questions/new.html.erb (9.2ms)
+Completed 200 OK in 94ms (Views: 11.8ms | ActiveRecord: 3.2ms)
+
+
+Started GET "/assets/ui-bg_highlight-soft_100_eeeeee_1x100.png" for 127.0.0.1 at 2011-11-25 18:37:11 +0500
+Served asset /ui-bg_highlight-soft_100_eeeeee_1x100.png - 200 OK (113ms)
+
+
+Started GET "/assets/ui-bg_gloss-wave_35_f6a828_500x100.png" for 127.0.0.1 at 2011-11-25 18:37:11 +0500
+Served asset /ui-bg_gloss-wave_35_f6a828_500x100.png - 200 OK (28ms)
+
+
+Started GET "/assets/ui-bg_highlight-soft_75_ffe45c_1x100.png" for 127.0.0.1 at 2011-11-25 18:37:11 +0500
+Served asset /ui-bg_highlight-soft_75_ffe45c_1x100.png - 200 OK (15ms)
+
+
+Started GET "/assets/ui-bg_glass_100_f6f6f6_1x400.png" for 127.0.0.1 at 2011-11-25 18:37:11 +0500
+Served asset /ui-bg_glass_100_f6f6f6_1x400.png - 200 OK (30ms)
+
+
+Started GET "/assets/ui-icons_ffffff_256x240.png" for 127.0.0.1 at 2011-11-25 18:37:11 +0500
+Served asset /ui-icons_ffffff_256x240.png - 200 OK (6ms)
+
+
+Started GET "/assets/ui-bg_glass_100_fdf5ce_1x400.png" for 127.0.0.1 at 2011-11-25 18:37:12 +0500
+Served asset /ui-bg_glass_100_fdf5ce_1x400.png - 200 OK (4ms)
+
+
+Started POST "/questions" for 127.0.0.1 at 2011-11-25 18:37:14 +0500
+  Processing by QuestionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"L9cBqXe3etcOJVr9gVQsaNYmIK+EOUCG0DplJy0WRfU=", "question"=>{"title"=>"test question", "description"=>"this is just to test the functionality of posting a question on Fanalyzr", "category_id"=>"3"}, "commit"=>"Post"}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `questions` (`category_id`, `created_at`, `dealine`, `description`, `title`, `updated_at`, `user_id`) VALUES (3, '2011-11-25 13:37:14', NULL, 'this is just to test the functionality of posting a question on Fanalyzr', 'test question', '2011-11-25 13:37:14', 1)[0m
+  [1m[35m (55.3ms)[0m  COMMIT
+Redirected to http://localhost.com/home
+Completed 302 Found in 93ms
+
+
+Started GET "/home" for 127.0.0.1 at 2011-11-25 18:37:14 +0500
+  Processing by UsersController#home as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mQuestion Load (0.2ms)[0m  SELECT `questions`.* FROM `questions` ORDER BY id DESC LIMIT 3 OFFSET 0
+Rendered shared/_templates.html.erb (0.0ms)
+Rendered users/home.html.erb within layouts/application (1.1ms)
+Rendered shared/_header.html.erb (1.1ms)
+Rendered shared/_search_bar.html.erb (0.2ms)
+Rendered shared/_footer.html.erb (0.0ms)
+Completed 200 OK in 34ms (Views: 12.6ms | ActiveRecord: 2.2ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.css?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /thickbox.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.css?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /jquery-ui.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /comments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /custom-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /answers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /pages.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /questions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (3ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /tipsy.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/contributer_01.jpg" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_01.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/contributer_02.jpg" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_02.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/contributer_03.jpg" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_03.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/contributer_01.jpg" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_01.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/contributer_02.jpg" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_02.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/images/contributer_03.jpg" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_03.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/questions" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+  Processing by QuestionsController#index as JSON
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mQuestion Load (0.2ms)[0m  SELECT `questions`.* FROM `questions` ORDER BY id DESC LIMIT 3 OFFSET 0
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `answers` WHERE `answers`.`question_id` = 1
+  [1m[36mAnswer Load (0.1ms)[0m  [1mSELECT `answers`.* FROM `answers` WHERE `answers`.`question_id` = 1 LIMIT 1[0m
+Rendered questions/_listing.html.erb (34.6ms)
+Completed 200 OK in 123ms (Views: 36.9ms | ActiveRecord: 3.2ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/rating-img.png" for 127.0.0.1 at 2011-11-25 18:37:15 +0500
+Served asset /rating-img.png - 200 OK (67ms)
+
+
+Started POST "/questions/1/answers" for 127.0.0.1 at 2011-11-25 18:37:42 +0500
+  Processing by AnswersController#create as JSON
+  Parameters: {"answer"=>{"text"=>" oh my god how can i answer to my own question?"}, "question_id"=>"1"}
+  [1m[35mUser Load (0.1ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+  [1m[36mQuestion Load (0.2ms)[0m  [1mSELECT `questions`.* FROM `questions` WHERE `questions`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `answers` (`created_at`, `question_id`, `text`, `title`, `updated_at`, `user_id`) VALUES ('2011-11-25 13:37:42', 1, ' oh my god how can i answer to my own question?', NULL, '2011-11-25 13:37:42', 1)[0m
+  [1m[35m (37.4ms)[0m  COMMIT
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mQuestion Load (0.1ms)[0m  SELECT `questions`.* FROM `questions` WHERE `questions`.`id` = 1 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `answers` WHERE `answers`.`question_id` = 1[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM `comments` WHERE `comments`.`commentable_id` = 1 AND `comments`.`commentable_type` = 'Answer'
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `votes` WHERE `votes`.`answer_id` = 1 AND `votes`.`up` = 1[0m
+Rendered answers/create.html.erb (12.9ms)
+Completed 200 OK in 148ms (Views: 14.5ms | ActiveRecord: 43.0ms)
+
+
+Started GET "/assets/voting-thumb.png" for 127.0.0.1 at 2011-11-25 18:37:43 +0500
+Served asset /voting-thumb.png - 200 OK (15ms)
+
+
+Started GET "/comments?answer_id=1" for 127.0.0.1 at 2011-11-25 18:39:40 +0500
+  Processing by CommentsController#index as JSON
+  Parameters: {"answer_id"=>"1"}
+  [1m[35mUser Load (0.1ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+  [1m[36mAnswer Load (0.2ms)[0m  [1mSELECT `answers`.* FROM `answers` WHERE `answers`.`id` = 1 LIMIT 1[0m
+  [1m[35mComment Load (0.3ms)[0m  SELECT `comments`.* FROM `comments` WHERE `comments`.`commentable_id` = 1 AND `comments`.`commentable_type` = 'Answer' ORDER BY created_at ASC
+Rendered comments/index.html.erb (5.9ms)
+Completed 200 OK in 90ms (Views: 9.0ms | ActiveRecord: 3.0ms)
+
+
+Started POST "/comments/" for 127.0.0.1 at 2011-11-25 18:39:51 +0500
+  Processing by CommentsController#create as JSON
+  Parameters: {"comment"=>{"comment"=>"test comment"}, "answer_id"=>"1"}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mAnswer Load (0.1ms)[0m  SELECT `answers`.* FROM `answers` WHERE `answers`.`id` = 1 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO `comments` (`comment`, `commentable_id`, `commentable_type`, `created_at`, `title`, `updated_at`, `user_id`) VALUES ('test comment', 1, 'Answer', '2011-11-25 13:39:51', '', '2011-11-25 13:39:51', 1)
+  [1m[36m (32.7ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+Rendered comments/create.html.erb (2.1ms)
+Completed 200 OK in 137ms (Views: 5.5ms | ActiveRecord: 36.1ms)
+
+
+Started POST "/questions/1/answers/1/up_vote" for 127.0.0.1 at 2011-11-25 18:39:57 +0500
+  Processing by AnswersController#up_vote as JSON
+  Parameters: {"question_id"=>"1", "id"=>"1"}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mAnswer Load (0.1ms)[0m  SELECT `answers`.* FROM `answers` WHERE `answers`.`id` = 1 LIMIT 1
+  [1m[36mVote Load (0.2ms)[0m  [1mSELECT `votes`.* FROM `votes` WHERE `votes`.`answer_id` = 1 AND `votes`.`user_id` = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT `answers`.* FROM `answers` WHERE `answers`.`id` =   LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `votes` (`answer_id`, `created_at`, `up`, `updated_at`, `user_id`) VALUES (1, '2011-11-25 13:39:57', 1, '2011-11-25 13:39:57', 1)
+  [1m[36m (41.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `votes` WHERE `votes`.`answer_id` = 1 AND `votes`.`up` = 1
+Completed 200 OK in 137ms (Views: 2.9ms | ActiveRecord: 45.4ms)
+
+
+Started POST "/questions/1/answers/1/down_vote" for 127.0.0.1 at 2011-11-25 18:40:02 +0500
+  Processing by AnswersController#down_vote as JSON
+  Parameters: {"question_id"=>"1", "id"=>"1"}
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mAnswer Load (0.1ms)[0m  SELECT `answers`.* FROM `answers` WHERE `answers`.`id` = 1 LIMIT 1
+  [1m[36mVote Load (0.3ms)[0m  [1mSELECT `votes`.* FROM `votes` WHERE `votes`.`answer_id` = 1 AND `votes`.`user_id` = 1 LIMIT 1[0m
+  [1m[35mSQL (46.2ms)[0m  DELETE FROM `votes` WHERE `votes`.`id` = 1
+  [1m[36mAnswer Load (0.1ms)[0m  [1mSELECT `answers`.* FROM `answers` WHERE `answers`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `votes` (`answer_id`, `created_at`, `up`, `updated_at`, `user_id`) VALUES (1, '2011-11-25 13:40:02', 0, '2011-11-25 13:40:02', 1)[0m
+  [1m[35m (30.6ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM `votes` WHERE `votes`.`answer_id` = 1 AND `votes`.`up` = 1[0m
+Completed 200 OK in 172ms (Views: 1.9ms | ActiveRecord: 80.5ms)
+
+
+Started POST "/questions/1/answers/1/up_vote" for 127.0.0.1 at 2011-11-25 18:40:03 +0500
+  Processing by AnswersController#up_vote as JSON
+  Parameters: {"question_id"=>"1", "id"=>"1"}
+  [1m[35mUser Load (0.1ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+  [1m[36mAnswer Load (0.1ms)[0m  [1mSELECT `answers`.* FROM `answers` WHERE `answers`.`id` = 1 LIMIT 1[0m
+  [1m[35mVote Load (0.4ms)[0m  SELECT `votes`.* FROM `votes` WHERE `votes`.`answer_id` = 1 AND `votes`.`user_id` = 1 LIMIT 1
+  [1m[36mSQL (52.6ms)[0m  [1mDELETE FROM `votes` WHERE `votes`.`id` = 2[0m
+  [1m[35mAnswer Load (0.1ms)[0m  SELECT `answers`.* FROM `answers` WHERE `answers`.`id` = 1 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO `votes` (`answer_id`, `created_at`, `up`, `updated_at`, `user_id`) VALUES (1, '2011-11-25 13:40:03', 1, '2011-11-25 13:40:03', 1)
+  [1m[36m (30.7ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM `votes` WHERE `votes`.`answer_id` = 1 AND `votes`.`up` = 1
+Completed 200 OK in 184ms (Views: 2.9ms | ActiveRecord: 87.4ms)
+
+
+Started GET "/questions/my" for 127.0.0.1 at 2011-11-25 18:40:08 +0500
+  Processing by QuestionsController#my as JSON
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mQuestion Load (0.4ms)[0m  SELECT `questions`.* FROM `questions` WHERE `questions`.`user_id` = 1 ORDER BY id DESC LIMIT 3
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `answers` WHERE `answers`.`question_id` = 1
+  [1m[36mAnswer Load (0.2ms)[0m  [1mSELECT `answers`.* FROM `answers` WHERE `answers`.`question_id` = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+  [1m[36mQuestion Load (0.2ms)[0m  [1mSELECT `questions`.* FROM `questions` WHERE `questions`.`id` = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM `answers` WHERE `answers`.`question_id` = 1
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM `comments` WHERE `comments`.`commentable_id` = 1 AND `comments`.`commentable_type` = 'Answer'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `votes` WHERE `votes`.`answer_id` = 1 AND `votes`.`up` = 1
+Rendered questions/_listing.html.erb (81.1ms)
+Completed 200 OK in 123ms (Views: 81.7ms | ActiveRecord: 5.4ms)
+
+
+Started GET "/questions/1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+  Processing by QuestionsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mQuestion Load (0.1ms)[0m  SELECT `questions`.* FROM `questions` WHERE `questions`.`id` = 1 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `answers` WHERE `answers`.`question_id` = 1
+Rendered questions/_box.html.erb (15.9ms)
+  [1m[36mAnswer Load (0.2ms)[0m  [1mSELECT `answers`.* FROM `answers` WHERE `answers`.`question_id` = 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+Rendered answers/_box.html.erb (6.3ms)
+Rendered questions/show.html.erb within layouts/application (32.0ms)
+Rendered shared/_header.html.erb (1.4ms)
+Rendered shared/_search_bar.html.erb (0.2ms)
+Rendered shared/_footer.html.erb (0.0ms)
+Completed 200 OK in 134ms (Views: 56.4ms | ActiveRecord: 3.4ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.css?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /thickbox.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /custom-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.css?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /jquery-ui.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /answers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /comments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /tipsy.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /pages.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /questions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/questions/images/contributer_01.jpg" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+
+AbstractController::ActionNotFound (The action 'images' could not be found for QuestionsController):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/unknown_action.erb within rescues/layout (0.5ms)
+
+
+Started GET "/questions/images/contributer_02.jpg" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+
+AbstractController::ActionNotFound (The action 'images' could not be found for QuestionsController):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/unknown_action.erb within rescues/layout (0.3ms)
+
+
+Started GET "/questions/images/contributer_03.jpg" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+
+AbstractController::ActionNotFound (The action 'images' could not be found for QuestionsController):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/unknown_action.erb within rescues/layout (0.3ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/questions/images/contributer_01.jpg" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+
+AbstractController::ActionNotFound (The action 'images' could not be found for QuestionsController):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/unknown_action.erb within rescues/layout (0.3ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/questions/images/contributer_03.jpg" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+
+AbstractController::ActionNotFound (The action 'images' could not be found for QuestionsController):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/unknown_action.erb within rescues/layout (0.4ms)
+
+
+Started GET "/questions/images/contributer_02.jpg" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+
+AbstractController::ActionNotFound (The action 'images' could not be found for QuestionsController):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/unknown_action.erb within rescues/layout (0.4ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/questions/images/loadingAnimation.gif" for 127.0.0.1 at 2011-11-25 18:40:11 +0500
+
+AbstractController::ActionNotFound (The action 'images' could not be found for QuestionsController):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/unknown_action.erb within rescues/layout (0.3ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 18:40:12 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 18:40:12 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 18:40:34 +0500
+  Processing by PagesController#index as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+Redirected to http://localhost.com/home
+Completed 302 Found in 29ms
+
+
+Started GET "/home" for 127.0.0.1 at 2011-11-25 18:40:34 +0500
+  Processing by UsersController#home as HTML
+  [1m[35mUser Load (0.1ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+  [1m[36mQuestion Load (0.1ms)[0m  [1mSELECT `questions`.* FROM `questions` ORDER BY id DESC LIMIT 3 OFFSET 0[0m
+Rendered shared/_templates.html.erb (0.0ms)
+Rendered users/home.html.erb within layouts/application (1.1ms)
+Rendered shared/_header.html.erb (1.0ms)
+Rendered shared/_search_bar.html.erb (0.2ms)
+Rendered shared/_footer.html.erb (0.0ms)
+Completed 200 OK in 34ms (Views: 12.5ms | ActiveRecord: 2.1ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.css?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /thickbox.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.css?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /jquery-ui.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /custom-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /answers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /comments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /pages.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /questions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /tipsy.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/contributer_02.jpg" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_02.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/contributer_01.jpg" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_01.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/contributer_03.jpg" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_03.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/contributer_01.jpg" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_01.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/contributer_02.jpg" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_02.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/images/contributer_03.jpg" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_03.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/questions" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+  Processing by QuestionsController#index as JSON
+  [1m[35mUser Load (0.1ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+  [1m[36mQuestion Load (0.2ms)[0m  [1mSELECT `questions`.* FROM `questions` ORDER BY id DESC LIMIT 3 OFFSET 0[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `answers` WHERE `answers`.`question_id` = 1[0m
+  [1m[35mAnswer Load (0.1ms)[0m  SELECT `answers`.* FROM `answers` WHERE `answers`.`question_id` = 1 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mQuestion Load (0.2ms)[0m  SELECT `questions`.* FROM `questions` WHERE `questions`.`id` = 1 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(*) FROM `answers` WHERE `answers`.`question_id` = 1[0m
+  [1m[35m (0.0ms)[0m  SELECT COUNT(*) FROM `comments` WHERE `comments`.`commentable_id` = 1 AND `comments`.`commentable_type` = 'Answer'
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `votes` WHERE `votes`.`answer_id` = 1 AND `votes`.`up` = 1[0m
+Rendered questions/_listing.html.erb (81.9ms)
+Completed 200 OK in 174ms (Views: 83.0ms | ActiveRecord: 6.3ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 18:40:35 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/sign_out" for 127.0.0.1 at 2011-11-25 19:48:07 +0500
+  Processing by Devise::SessionsController#destroy as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+[paperclip] Saving attachments.
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost.com/
+Completed 302 Found in 229ms
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 19:48:07 +0500
+  Processing by PagesController#index as HTML
+Rendered pages/_register_box.html.erb (17.0ms)
+Rendered pages/index.html.erb within layouts/home (85.6ms)
+Compiled application.js  (8ms)  (pid 8986)
+Compiled routes.js  (0ms)  (pid 8986)
+Rendered shared/_public_header.html.erb (2.2ms)
+Rendered shared/_public_footer.html.erb (0.4ms)
+Completed 200 OK in 385ms (Views: 371.2ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /jquery.js - 304 Not Modified (8ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /jquery-ui.js - 304 Not Modified (3ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /custom-js.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /comments.js - 304 Not Modified (3ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /answers.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /mustache.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /pages.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /questions.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/routes.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /routes.js - 200 OK (2ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /thickbox.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /tipsy.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /users.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /application.js - 200 OK (54ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (2ms)
+
+
+Started GET "/assets/follow-questions-ico.jpg" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /follow-questions-ico.jpg - 304 Not Modified (34ms)
+
+
+Started GET "/assets/ask-question-ico.jpg" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /ask-question-ico.jpg - 304 Not Modified (15ms)
+
+
+Started GET "/assets/follow-player-ico.jpg" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /follow-player-ico.jpg - 304 Not Modified (1ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.6ms)
+
+
+Started GET "/assets/logo.png" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /logo.png - 304 Not Modified (2ms)
+
+
+Started GET "/assets/userIco.png" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /userIco.png - 304 Not Modified (4ms)
+
+
+Started GET "/assets/pattern.png" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /pattern.png - 304 Not Modified (4ms)
+
+
+Started GET "/assets/home-bg.jpg" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /home-bg.jpg - 304 Not Modified (21ms)
+
+
+Started GET "/assets/passIco.png" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /passIco.png - 304 Not Modified (1ms)
+
+
+Started GET "/assets/forgot-pass-ico.png" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /forgot-pass-ico.png - 304 Not Modified (12ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/assets/footTopMore_link_icons.png" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /footTopMore_link_icons.png - 304 Not Modified (10ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/signup-fb-btn.png" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /signup-fb-btn.png - 304 Not Modified (2ms)
+
+
+Started GET "/assets/signup-personal-btn.png" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /signup-personal-btn.png - 304 Not Modified (4ms)
+
+
+Started GET "/assets/signup-twiiter-btn.png" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+Served asset /signup-twiiter-btn.png - 304 Not Modified (2ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:48:08 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/users/auth/facebook" for 127.0.0.1 at 2011-11-25 19:52:01 +0500
+  Processing by OmniauthCallbacksController#passthru as HTML
+  Parameters: {"provider"=>"facebook"}
+Rendered public/404.html (0.4ms)
+Completed 404 Not Found in 13ms (Views: 12.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/auth/facebook/callback?code=AQBLVO78l2rwlxh-ohiDfab7EBqsziNP54zqn_0pmFy4dKD8Q_QLyb5QxfSMRXEd12vt6ZQ65-7wP7BeaslDgE_ZkgF-mqzox0-I92qgwVi_jVfc_RM34herdpuTySGDQ8L3hS_RHPtzgcnt3jhUAEe4-_iVOcRy11IDBJ-VNtaDAbkOZ2vKProqfDInro61N20" for 127.0.0.1 at 2011-11-25 19:52:08 +0500
+  Processing by OmniauthCallbacksController#aho as HTML
+  Parameters: {"code"=>"AQBLVO78l2rwlxh-ohiDfab7EBqsziNP54zqn_0pmFy4dKD8Q_QLyb5QxfSMRXEd12vt6ZQ65-7wP7BeaslDgE_ZkgF-mqzox0-I92qgwVi_jVfc_RM34herdpuTySGDQ8L3hS_RHPtzgcnt3jhUAEe4-_iVOcRy11IDBJ-VNtaDAbkOZ2vKProqfDInro61N20", "provider"=>"facebook"}
+  [1m[35mUserToken Load (32.8ms)[0m  SELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`provider` = 'facebook' AND `user_tokens`.`uid` = '626415268' LIMIT 1
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mUPDATE `users` SET `current_sign_in_at` = '2011-11-25 14:52:14', `sign_in_count` = 2, `updated_at` = '2011-11-25 14:52:14' WHERE `users`.`id` = 1[0m
+[paperclip] Saving attachments.
+  [1m[35m (27.2ms)[0m  COMMIT
+Rendered omniauth_callbacks/facebook.html.erb (0.3ms)
+Completed 200 OK in 315ms (Views: 16.2ms | ActiveRecord: 63.6ms)
+
+
+Started GET "/home" for 127.0.0.1 at 2011-11-25 19:52:14 +0500
+  Processing by UsersController#home as HTML
+  [1m[36mUser Load (0.6ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mQuestion Load (0.2ms)[0m  SELECT `questions`.* FROM `questions` ORDER BY id DESC LIMIT 3 OFFSET 0
+Rendered shared/_templates.html.erb (0.2ms)
+Rendered users/home.html.erb within layouts/application (1.7ms)
+Rendered shared/_header.html.erb (1.8ms)
+Rendered shared/_search_bar.html.erb (0.5ms)
+Rendered shared/_footer.html.erb (0.2ms)
+Completed 200 OK in 114ms (Views: 46.3ms | ActiveRecord: 3.3ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.css?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /jquery-ui.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.css?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /thickbox.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /answers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /comments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /custom-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /pages.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /questions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /tipsy.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/routes.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /routes.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/contributer_01.jpg" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_01.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/images/contributer_02.jpg" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_02.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/images/contributer_03.jpg" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_03.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/logo.png" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /logo.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/default-avatar-tiny.jpg" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /default-avatar-tiny.jpg - 304 Not Modified (17ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/images/contributer_01.jpg" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_01.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/contributer_02.jpg" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_02.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/tinyBullet.png" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /tinyBullet.png - 304 Not Modified (4ms)
+
+
+Started GET "/assets/pattern.png" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /pattern.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/sprite.png" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /sprite.png - 304 Not Modified (9ms)
+
+
+Started GET "/assets/searchbg.jpg" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /searchbg.jpg - 304 Not Modified (2ms)
+
+
+Started GET "/images/contributer_03.jpg" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_03.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/assets/footTopMore_link_icons.png" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /footTopMore_link_icons.png - 304 Not Modified (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.8ms)
+
+
+Started GET "/questions" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+  Processing by QuestionsController#index as JSON
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mQuestion Load (0.2ms)[0m  SELECT `questions`.* FROM `questions` ORDER BY id DESC LIMIT 3 OFFSET 0
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `answers` WHERE `answers`.`question_id` = 1
+  [1m[36mAnswer Load (0.1ms)[0m  [1mSELECT `answers`.* FROM `answers` WHERE `answers`.`question_id` = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+  [1m[36mQuestion Load (0.1ms)[0m  [1mSELECT `questions`.* FROM `questions` WHERE `questions`.`id` = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM `answers` WHERE `answers`.`question_id` = 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `comments` WHERE `comments`.`commentable_id` = 1 AND `comments`.`commentable_type` = 'Answer'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `votes` WHERE `votes`.`answer_id` = 1 AND `votes`.`up` = 1
+Rendered questions/_listing.html.erb (97.6ms)
+Completed 200 OK in 186ms (Views: 97.7ms | ActiveRecord: 5.7ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/rating-img.png" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /rating-img.png - 304 Not Modified (2ms)
+
+
+Started GET "/assets/voting-thumb.png" for 127.0.0.1 at 2011-11-25 19:52:15 +0500
+Served asset /voting-thumb.png - 304 Not Modified (2ms)
+
+
+Started GET "/sign_out" for 127.0.0.1 at 2011-11-25 19:52:31 +0500
+  Processing by Devise::SessionsController#destroy as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+[paperclip] Saving attachments.
+  [1m[36m (0.0ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost.com/
+Completed 302 Found in 74ms
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 19:52:31 +0500
+  Processing by PagesController#index as HTML
+Rendered pages/_register_box.html.erb (17.0ms)
+Rendered pages/index.html.erb within layouts/home (18.1ms)
+Rendered shared/_public_header.html.erb (1.4ms)
+Rendered shared/_public_footer.html.erb (0.0ms)
+Completed 200 OK in 86ms (Views: 27.9ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /answers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /comments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /custom-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /pages.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /questions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/routes.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /routes.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /tipsy.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/ask-question-ico.jpg" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /ask-question-ico.jpg - 304 Not Modified (0ms)
+
+
+Started GET "/assets/follow-questions-ico.jpg" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /follow-questions-ico.jpg - 304 Not Modified (0ms)
+
+
+Started GET "/assets/logo.png" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /logo.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/passIco.png" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /passIco.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pattern.png" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /pattern.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/userIco.png" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /userIco.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/follow-player-ico.jpg" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /follow-player-ico.jpg - 304 Not Modified (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.8ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/signup-fb-btn.png" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /signup-fb-btn.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/home-bg.jpg" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /home-bg.jpg - 304 Not Modified (0ms)
+
+
+Started GET "/assets/signup-twiiter-btn.png" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /signup-twiiter-btn.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/forgot-pass-ico.png" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /forgot-pass-ico.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/signup-personal-btn.png" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /signup-personal-btn.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/footTopMore_link_icons.png" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+Served asset /footTopMore_link_icons.png - 304 Not Modified (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:52:32 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 19:54:06 +0500
+  Processing by PagesController#index as HTML
+Rendered pages/_register_box.html.erb (59.0ms)
+Rendered pages/index.html.erb within layouts/home (59.6ms)
+Compiled pages.js  (0ms)  (pid 8986)
+Compiled application.js  (7ms)  (pid 8986)
+Rendered shared/_public_header.html.erb (1.7ms)
+Rendered shared/_public_footer.html.erb (0.0ms)
+Completed 200 OK in 112ms (Views: 96.6ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 19:54:06 +0500
+Served asset /main.css - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:06 +0500
+Served asset /jquery.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:06 +0500
+Served asset /jquery_ujs.js - 200 OK (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:06 +0500
+Served asset /comments.js - 200 OK (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:06 +0500
+Served asset /answers.js - 200 OK (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 19:54:06 +0500
+Served asset /uniform.css - 200 OK (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:06 +0500
+Served asset /custom-js.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:06 +0500
+Served asset /jquery-ui.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:06 +0500
+Served asset /jquery.datepicker.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:06 +0500
+Served asset /jquery.mustache.js - 200 OK (0ms)
+
+
+Started GET "/assets/routes.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /routes.js - 200 OK (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /questions.js - 200 OK (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /mustache.js - 200 OK (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /omniauth_callbacks.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /jquery.wysiwyg.js - 200 OK (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /tipsy.js - 200 OK (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /pages.js - 200 OK (2ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /wysiwyg.image.js - 200 OK (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /thickbox.js - 200 OK (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /uniform-js.js - 200 OK (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /users.js - 200 OK (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /wysiwyg.link.js - 200 OK (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /application.js - 200 OK (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /wysiwyg.table.js - 200 OK (0ms)
+
+
+Started GET "/assets/logo.png" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /logo.png - 200 OK (0ms)
+
+
+Started GET "/assets/ask-question-ico.jpg" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /ask-question-ico.jpg - 200 OK (0ms)
+
+
+Started GET "/assets/follow-player-ico.jpg" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /follow-player-ico.jpg - 200 OK (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.6ms)
+
+
+Started GET "/assets/follow-questions-ico.jpg" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /follow-questions-ico.jpg - 200 OK (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /uniform-js.js - 200 OK (0ms)
+
+
+Started GET "/assets/userIco.png" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /userIco.png - 200 OK (0ms)
+
+
+Started GET "/assets/pattern.png" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /pattern.png - 200 OK (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.8ms)
+
+
+Started GET "/assets/forgot-pass-ico.png" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /forgot-pass-ico.png - 200 OK (0ms)
+
+
+Started GET "/assets/passIco.png" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /passIco.png - 200 OK (0ms)
+
+
+Started GET "/assets/signup-twiiter-btn.png" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /signup-twiiter-btn.png - 200 OK (0ms)
+
+
+Started GET "/assets/signup-fb-btn.png" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /signup-fb-btn.png - 200 OK (0ms)
+
+
+Started GET "/assets/home-bg.jpg" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /home-bg.jpg - 200 OK (0ms)
+
+
+Started GET "/assets/footTopMore_link_icons.png" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /footTopMore_link_icons.png - 200 OK (0ms)
+
+
+Started GET "/assets/signup-personal-btn.png" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+Served asset /signup-personal-btn.png - 200 OK (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:54:07 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 19:54:26 +0500
+  Processing by PagesController#index as HTML
+Rendered pages/_register_box.html.erb (16.9ms)
+Rendered pages/index.html.erb within layouts/home (17.5ms)
+Compiled pages.js  (0ms)  (pid 8986)
+Compiled application.js  (7ms)  (pid 8986)
+Rendered shared/_public_header.html.erb (2.0ms)
+Rendered shared/_public_footer.html.erb (0.0ms)
+Completed 200 OK in 111ms (Views: 95.9ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /jquery.js - 200 OK (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /uniform.css - 200 OK (0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /main.css - 200 OK (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /answers.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /jquery_ujs.js - 200 OK (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /custom-js.js - 200 OK (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /comments.js - 200 OK (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /omniauth_callbacks.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /jquery.wysiwyg.js - 200 OK (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /mustache.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /jquery.mustache.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /jquery-ui.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /jquery.datepicker.js - 200 OK (0ms)
+
+
+Started GET "/assets/routes.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /routes.js - 200 OK (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /thickbox.js - 200 OK (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /questions.js - 200 OK (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /pages.js - 200 OK (9ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /users.js - 200 OK (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /wysiwyg.image.js - 200 OK (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /wysiwyg.link.js - 200 OK (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /uniform-js.js - 200 OK (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /tipsy.js - 200 OK (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /wysiwyg.table.js - 200 OK (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /application.js - 200 OK (0ms)
+
+
+Started GET "/assets/logo.png" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /logo.png - 200 OK (0ms)
+
+
+Started GET "/assets/follow-player-ico.jpg" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /follow-player-ico.jpg - 200 OK (0ms)
+
+
+Started GET "/assets/follow-questions-ico.jpg" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /follow-questions-ico.jpg - 200 OK (0ms)
+
+
+Started GET "/assets/ask-question-ico.jpg" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /ask-question-ico.jpg - 200 OK (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (54.9ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /uniform-js.js - 200 OK (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.6ms)
+
+
+Started GET "/assets/passIco.png" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /passIco.png - 200 OK (0ms)
+
+
+Started GET "/assets/pattern.png" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /pattern.png - 200 OK (0ms)
+
+
+Started GET "/assets/userIco.png" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /userIco.png - 200 OK (0ms)
+
+
+Started GET "/assets/signup-fb-btn.png" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /signup-fb-btn.png - 200 OK (0ms)
+
+
+Started GET "/assets/signup-twiiter-btn.png" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /signup-twiiter-btn.png - 200 OK (0ms)
+
+
+Started GET "/assets/home-bg.jpg" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /home-bg.jpg - 200 OK (0ms)
+
+
+Started GET "/assets/forgot-pass-ico.png" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /forgot-pass-ico.png - 200 OK (0ms)
+
+
+Started GET "/assets/signup-personal-btn.png" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /signup-personal-btn.png - 200 OK (0ms)
+
+
+Started GET "/assets/footTopMore_link_icons.png" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+Served asset /footTopMore_link_icons.png - 200 OK (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:54:27 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/users/auth/facebook" for 127.0.0.1 at 2011-11-25 19:54:35 +0500
+  Processing by OmniauthCallbacksController#passthru as HTML
+  Parameters: {"provider"=>"facebook"}
+Rendered public/404.html (0.0ms)
+Completed 404 Not Found in 4ms (Views: 3.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/auth/facebook/callback?code=AQAeccPQXegrVzCpp9ppghdy13dXU8zeFLEN-aIgk17ryLSad_IV8uk8e32dGbfLBjSk_gi1BcR90_fzTuG8dfQse4krjYb6y2qxwgLkJGM63wkoAWmvew467t4Lm8g2bFQpp6ekOfcWQ_T55xVAfvqOvg1lzeJQf1EpD9IcbZNjtxjl8ghUaRIuioa6ZIQBjpU" for 127.0.0.1 at 2011-11-25 19:54:39 +0500
+  Processing by OmniauthCallbacksController#aho as HTML
+  Parameters: {"code"=>"AQAeccPQXegrVzCpp9ppghdy13dXU8zeFLEN-aIgk17ryLSad_IV8uk8e32dGbfLBjSk_gi1BcR90_fzTuG8dfQse4krjYb6y2qxwgLkJGM63wkoAWmvew467t4Lm8g2bFQpp6ekOfcWQ_T55xVAfvqOvg1lzeJQf1EpD9IcbZNjtxjl8ghUaRIuioa6ZIQBjpU", "provider"=>"facebook"}
+  [1m[35mUserToken Load (0.1ms)[0m  SELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`provider` = 'facebook' AND `user_tokens`.`uid` = '626415268' LIMIT 1
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mUPDATE `users` SET `last_sign_in_at` = '2011-11-25 14:52:14', `current_sign_in_at` = '2011-11-25 14:54:45', `sign_in_count` = 3, `updated_at` = '2011-11-25 14:54:45' WHERE `users`.`id` = 1[0m
+[paperclip] Saving attachments.
+  [1m[35m (45.4ms)[0m  COMMIT
+Rendered omniauth_callbacks/facebook.html.erb (0.0ms)
+Completed 200 OK in 88ms (Views: 2.8ms | ActiveRecord: 48.4ms)
+
+
+Started GET "/home" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+  Processing by UsersController#home as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mQuestion Load (0.1ms)[0m  SELECT `questions`.* FROM `questions` ORDER BY id DESC LIMIT 3 OFFSET 0
+Rendered shared/_templates.html.erb (0.0ms)
+Rendered users/home.html.erb within layouts/application (1.1ms)
+Rendered shared/_header.html.erb (1.1ms)
+Rendered shared/_search_bar.html.erb (0.2ms)
+Rendered shared/_footer.html.erb (0.0ms)
+Completed 200 OK in 36ms (Views: 14.5ms | ActiveRecord: 2.4ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.css?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /jquery-ui.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.css?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /thickbox.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /answers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /custom-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /comments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /questions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /pages.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/routes.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /routes.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /tipsy.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/contributer_01.jpg" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_01.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/contributer_02.jpg" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_02.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/contributer_03.jpg" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_03.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/contributer_01.jpg" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_01.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/sprite.png" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+Served asset /sprite.png - 304 Not Modified (0ms)
+
+
+Started GET "/images/contributer_03.jpg" for 127.0.0.1 at 2011-11-25 19:54:52 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_03.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:53 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/contributer_02.jpg" for 127.0.0.1 at 2011-11-25 19:54:53 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/contributer_02.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/default-avatar-tiny.jpg" for 127.0.0.1 at 2011-11-25 19:54:53 +0500
+Served asset /default-avatar-tiny.jpg - 304 Not Modified (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:54:53 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/assets/tinyBullet.png" for 127.0.0.1 at 2011-11-25 19:54:53 +0500
+Served asset /tinyBullet.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/searchbg.jpg" for 127.0.0.1 at 2011-11-25 19:54:53 +0500
+Served asset /searchbg.jpg - 304 Not Modified (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:54:53 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/questions" for 127.0.0.1 at 2011-11-25 19:54:53 +0500
+  Processing by QuestionsController#index as JSON
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35mQuestion Load (0.2ms)[0m  SELECT `questions`.* FROM `questions` ORDER BY id DESC LIMIT 3 OFFSET 0
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `answers` WHERE `answers`.`question_id` = 1
+  [1m[36mAnswer Load (0.1ms)[0m  [1mSELECT `answers`.* FROM `answers` WHERE `answers`.`question_id` = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1
+  [1m[36mQuestion Load (0.2ms)[0m  [1mSELECT `questions`.* FROM `questions` WHERE `questions`.`id` = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM `answers` WHERE `answers`.`question_id` = 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM `comments` WHERE `comments`.`commentable_id` = 1 AND `comments`.`commentable_type` = 'Answer'[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM `votes` WHERE `votes`.`answer_id` = 1 AND `votes`.`up` = 1
+Rendered questions/_listing.html.erb (82.8ms)
+Completed 200 OK in 169ms (Views: 84.3ms | ActiveRecord: 4.9ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:54:53 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:54:53 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/voting-thumb.png" for 127.0.0.1 at 2011-11-25 19:54:53 +0500
+Served asset /voting-thumb.png - 304 Not Modified (0ms)
+
+
+Started GET "/assets/rating-img.png" for 127.0.0.1 at 2011-11-25 19:54:53 +0500
+Served asset /rating-img.png - 304 Not Modified (0ms)
+
+
+Started GET "/sign_out" for 127.0.0.1 at 2011-11-25 19:54:58 +0500
+  Processing by Devise::SessionsController#destroy as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT `users`.* FROM `users` WHERE `users`.`id` = 1 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+[paperclip] Saving attachments.
+  [1m[36m (0.1ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost.com/
+Completed 302 Found in 77ms
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 19:54:58 +0500
+  Processing by PagesController#index as HTML
+Rendered pages/_register_box.html.erb (62.2ms)
+Rendered pages/index.html.erb within layouts/home (62.8ms)
+Rendered shared/_public_header.html.erb (2.0ms)
+Rendered shared/_public_footer.html.erb (0.0ms)
+Completed 200 OK in 88ms (Views: 73.6ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /comments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /answers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /custom-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/routes.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /routes.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /questions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /pages.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /tipsy.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (4.3ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:54:59 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 19:56:37 +0500
+  Processing by PagesController#index as HTML
+Rendered pages/_register_box.html.erb (16.3ms)
+Rendered pages/index.html.erb within layouts/home (16.9ms)
+Compiled pages.js  (0ms)  (pid 8986)
+Compiled application.js  (7ms)  (pid 8986)
+Rendered shared/_public_header.html.erb (1.9ms)
+Rendered shared/_public_footer.html.erb (0.0ms)
+Completed 200 OK in 155ms (Views: 94.5ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 19:56:37 +0500
+Served asset /main.css - 200 OK (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /uniform.css - 200 OK (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /jquery_ujs.js - 200 OK (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /answers.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /jquery.js - 200 OK (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /comments.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /jquery-ui.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /jquery.datepicker.js - 200 OK (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /custom-js.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /jquery.wysiwyg.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /jquery.mustache.js - 200 OK (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /omniauth_callbacks.js - 200 OK (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /mustache.js - 200 OK (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /pages.js - 200 OK (2ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /questions.js - 200 OK (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /thickbox.js - 200 OK (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /tipsy.js - 200 OK (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /uniform-js.js - 200 OK (0ms)
+
+
+Started GET "/assets/routes.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /routes.js - 200 OK (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /wysiwyg.table.js - 200 OK (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /application.js - 200 OK (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /users.js - 200 OK (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /wysiwyg.image.js - 200 OK (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /wysiwyg.link.js - 200 OK (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /uniform-js.js - 200 OK (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (2.7ms)
+
+
+Started GET "/assets/follow-questions-ico.jpg" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /follow-questions-ico.jpg - 200 OK (0ms)
+
+
+Started GET "/assets/ask-question-ico.jpg" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /ask-question-ico.jpg - 200 OK (0ms)
+
+
+Started GET "/assets/follow-player-ico.jpg" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /follow-player-ico.jpg - 200 OK (0ms)
+
+
+Started GET "/assets/logo.png" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /logo.png - 200 OK (0ms)
+
+
+Started GET "/assets/userIco.png" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /userIco.png - 200 OK (0ms)
+
+
+Started GET "/assets/pattern.png" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /pattern.png - 200 OK (0ms)
+
+
+Started GET "/assets/passIco.png" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /passIco.png - 200 OK (0ms)
+
+
+Started GET "/assets/forgot-pass-ico.png" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /forgot-pass-ico.png - 200 OK (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.6ms)
+
+
+Started GET "/assets/home-bg.jpg" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /home-bg.jpg - 200 OK (0ms)
+
+
+Started GET "/assets/signup-fb-btn.png" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /signup-fb-btn.png - 200 OK (1ms)
+
+
+Started GET "/assets/signup-twiiter-btn.png" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /signup-twiiter-btn.png - 200 OK (0ms)
+
+
+Started GET "/assets/signup-personal-btn.png" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /signup-personal-btn.png - 200 OK (0ms)
+
+
+Started GET "/assets/footTopMore_link_icons.png" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+Served asset /footTopMore_link_icons.png - 200 OK (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:56:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/users/auth/twitter" for 127.0.0.1 at 2011-11-25 19:56:52 +0500
+  Processing by OmniauthCallbacksController#passthru as HTML
+  Parameters: {"provider"=>"twitter"}
+Rendered public/404.html (0.0ms)
+Completed 404 Not Found in 4ms (Views: 3.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/auth/twitter/callback?oauth_token=2hcCb9RcIBoJmwucsQV3ss0rsnKtMJImPr9YeAGpDU&oauth_verifier=jddg7FJhJQsbGlzBv5QbAeo4tpQy7OfbcUHhxKJWf4" for 127.0.0.1 at 2011-11-25 19:57:38 +0500
+  Processing by OmniauthCallbacksController#aho as HTML
+  Parameters: {"oauth_token"=>"2hcCb9RcIBoJmwucsQV3ss0rsnKtMJImPr9YeAGpDU", "oauth_verifier"=>"jddg7FJhJQsbGlzBv5QbAeo4tpQy7OfbcUHhxKJWf4", "provider"=>"twitter"}
+  [1m[35mUserToken Load (0.2ms)[0m  SELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`provider` = 'twitter' AND `user_tokens`.`uid` = '55580169' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (15.2ms)[0m  INSERT INTO `users` (`avatar_content_type`, `avatar_file_name`, `avatar_file_size`, `avatar_updated_at`, `confirmation_sent_at`, `confirmation_token`, `confirmed_at`, `created_at`, `current_sign_in_at`, `current_sign_in_ip`, `email`, `encrypted_password`, `last_sign_in_at`, `last_sign_in_ip`, `name`, `remember_created_at`, `reset_password_sent_at`, `reset_password_token`, `sign_in_count`, `updated_at`) VALUES (NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2011-11-25 14:57:44', NULL, NULL, '', '', NULL, NULL, 'Naveed Tariq Butt', NULL, NULL, NULL, 0, '2011-11-25 14:57:44')
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO `user_tokens` (`created_at`, `provider`, `secret`, `token`, `uid`, `updated_at`, `user_id`) VALUES ('2011-11-25 14:57:44', 'twitter', 'PMBUTMeV97QgutO6NkepKSgSM7NnJfzZpl9gEmJ0qI4', '55580169-N6zFx2vNKiy5SWJE0ScDJcgFD5Md1Y8pUGSJL58HA', '55580169', '2011-11-25 14:57:44', 2)[0m
+[paperclip] Saving attachments.
+  [1m[35m (39.5ms)[0m  COMMIT
+Rendered omniauth_callbacks/facebook.html.erb (0.0ms)
+Completed 200 OK in 147ms (Views: 2.9ms | ActiveRecord: 57.7ms)
+
+
+Started GET "/assets/cancelIco.png" for 127.0.0.1 at 2011-11-25 19:57:44 +0500
+Served asset /cancelIco.png - 200 OK (36ms)
+
+
+Started GET "/omniauth_callbacks/oauth_data" for 127.0.0.1 at 2011-11-25 19:58:02 +0500
+  Processing by OmniauthCallbacksController#oauth_data as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+  Processing by PagesController#index as HTML
+Rendered pages/_register_box.html.erb (15.8ms)
+Rendered pages/index.html.erb within layouts/home (16.5ms)
+Compiled pages.js  (0ms)  (pid 8986)
+Compiled application.js  (7ms)  (pid 8986)
+Rendered shared/_public_header.html.erb (1.7ms)
+Rendered shared/_public_footer.html.erb (0.0ms)
+Completed 200 OK in 111ms (Views: 95.5ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /main.css - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /jquery.js - 200 OK (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /comments.js - 200 OK (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /uniform.css - 200 OK (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /answers.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /jquery_ujs.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /jquery.datepicker.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /jquery.mustache.js - 200 OK (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /custom-js.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /jquery-ui.js - 200 OK (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /omniauth_callbacks.js - 200 OK (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /mustache.js - 200 OK (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /jquery.wysiwyg.js - 200 OK (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /questions.js - 200 OK (0ms)
+
+
+Started GET "/assets/routes.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /routes.js - 200 OK (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /pages.js - 200 OK (3ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /uniform-js.js - 200 OK (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /users.js - 200 OK (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /wysiwyg.image.js - 200 OK (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /tipsy.js - 200 OK (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /thickbox.js - 200 OK (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /wysiwyg.link.js - 200 OK (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /application.js - 200 OK (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.6ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /wysiwyg.table.js - 200 OK (0ms)
+
+
+Started GET "/assets/logo.png" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /logo.png - 200 OK (0ms)
+
+
+Started GET "/assets/follow-questions-ico.jpg" for 127.0.0.1 at 2011-11-25 19:59:39 +0500
+Served asset /follow-questions-ico.jpg - 200 OK (0ms)
+
+
+Started GET "/assets/ask-question-ico.jpg" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+Served asset /ask-question-ico.jpg - 200 OK (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/pattern.png" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+Served asset /pattern.png - 200 OK (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+Served asset /uniform-js.js - 200 OK (0ms)
+
+
+Started GET "/assets/follow-player-ico.jpg" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+Served asset /follow-player-ico.jpg - 200 OK (0ms)
+
+
+Started GET "/assets/passIco.png" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+Served asset /passIco.png - 200 OK (0ms)
+
+
+Started GET "/assets/userIco.png" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+Served asset /userIco.png - 200 OK (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/home-bg.jpg" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+Served asset /home-bg.jpg - 200 OK (2ms)
+
+
+Started GET "/assets/signup-fb-btn.png" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+Served asset /signup-fb-btn.png - 200 OK (0ms)
+
+
+Started GET "/assets/forgot-pass-ico.png" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+Served asset /forgot-pass-ico.png - 200 OK (0ms)
+
+
+Started GET "/assets/signup-twiiter-btn.png" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+Served asset /signup-twiiter-btn.png - 200 OK (0ms)
+
+
+Started GET "/assets/signup-personal-btn.png" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+Served asset /signup-personal-btn.png - 200 OK (0ms)
+
+
+Started GET "/assets/footTopMore_link_icons.png" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+Served asset /footTopMore_link_icons.png - 200 OK (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 19:59:40 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.4ms)
+
+
+Started GET "/users/auth/twitter" for 127.0.0.1 at 2011-11-25 19:59:43 +0500
+  Processing by OmniauthCallbacksController#passthru as HTML
+  Parameters: {"provider"=>"twitter"}
+Rendered public/404.html (0.0ms)
+Completed 404 Not Found in 4ms (Views: 3.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/auth/twitter/callback?oauth_token=zaFPzdVK51Q3hzIxgCxy7TatEz1rhU4pMNNWfVeNcM&oauth_verifier=Br9GlRMARJ8jy7B89S3DuddKXdzd2b0y2jgXUuo" for 127.0.0.1 at 2011-11-25 19:59:51 +0500
+  Processing by OmniauthCallbacksController#aho as HTML
+  Parameters: {"oauth_token"=>"zaFPzdVK51Q3hzIxgCxy7TatEz1rhU4pMNNWfVeNcM", "oauth_verifier"=>"Br9GlRMARJ8jy7B89S3DuddKXdzd2b0y2jgXUuo", "provider"=>"twitter"}
+  [1m[36mUserToken Load (0.2ms)[0m  [1mSELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`provider` = 'twitter' AND `user_tokens`.`uid` = '55580169' LIMIT 1[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 2 LIMIT 1
+Rendered omniauth_callbacks/facebook.html.erb (0.0ms)
+Completed 200 OK in 42ms (Views: 2.9ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/assets/cancelIco.png" for 127.0.0.1 at 2011-11-25 19:59:56 +0500
+Served asset /cancelIco.png - 200 OK (0ms)
+
+
+Started GET "/omniauth_callbacks/oauth_data" for 127.0.0.1 at 2011-11-25 19:59:56 +0500
+  Processing by OmniauthCallbacksController#oauth_data as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/omniauth_callbacks/clear_omniauth" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+  Processing by OmniauthCallbacksController#clear_omniauth as */*
+  [1m[36mUserToken Load (0.2ms)[0m  [1mSELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`provider` = 'twitter' AND `user_tokens`.`uid` = '55580169' LIMIT 1[0m
+  [1m[35mUser Load (0.1ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 2 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+[paperclip] Scheduling attachments for deletion.
+  [1m[35mUserToken Load (0.5ms)[0m  SELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`user_id` = 2
+  [1m[36mSQL (0.2ms)[0m  [1mDELETE FROM `user_tokens` WHERE `user_tokens`.`id` = 2[0m
+  [1m[35mSQL (0.1ms)[0m  DELETE FROM `users` WHERE `users`.`id` = 2
+[paperclip] Deleting attachments.
+  [1m[36m (40.3ms)[0m  [1mCOMMIT[0m
+Completed 200 OK in 181ms (Views: 0.2ms | ActiveRecord: 46.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+  Processing by PagesController#index as HTML
+Rendered pages/_register_box.html.erb (18.3ms)
+Rendered pages/index.html.erb within layouts/home (19.6ms)
+Rendered shared/_public_header.html.erb (1.9ms)
+Rendered shared/_public_footer.html.erb (0.0ms)
+Completed 200 OK in 100ms (Views: 29.9ms | ActiveRecord: 1.9ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /answers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /comments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /custom-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /pages.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /questions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/routes.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /routes.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /tipsy.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 20:00:14 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:15 +0500
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:15 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 20:00:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.1ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 20:00:15 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 20:00:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 20:00:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 20:00:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.6ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 20:00:15 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.0ms)
+
+
+Started GET "/users/auth/twitter" for 127.0.0.1 at 2011-11-25 20:01:08 +0500
+  Processing by OmniauthCallbacksController#passthru as HTML
+  Parameters: {"provider"=>"twitter"}
+Rendered public/404.html (0.0ms)
+Completed 404 Not Found in 5ms (Views: 5.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/auth/twitter/callback?oauth_token=iTd8EFkiICYrmYp2hiw4IJI4KfHyCWTTj6Ltgwoyw&oauth_verifier=FdbWSlO3ldGgZcjN2xYOgre9XppfvjChfiVUScLyWY" for 127.0.0.1 at 2011-11-25 20:01:29 +0500
+  Processing by OmniauthCallbacksController#aho as HTML
+  Parameters: {"oauth_token"=>"iTd8EFkiICYrmYp2hiw4IJI4KfHyCWTTj6Ltgwoyw", "oauth_verifier"=>"FdbWSlO3ldGgZcjN2xYOgre9XppfvjChfiVUScLyWY", "provider"=>"twitter"}
+  [1m[35mUserToken Load (0.2ms)[0m  SELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`provider` = 'twitter' AND `user_tokens`.`uid` = '55580169' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `users` (`avatar_content_type`, `avatar_file_name`, `avatar_file_size`, `avatar_updated_at`, `confirmation_sent_at`, `confirmation_token`, `confirmed_at`, `created_at`, `current_sign_in_at`, `current_sign_in_ip`, `email`, `encrypted_password`, `last_sign_in_at`, `last_sign_in_ip`, `name`, `remember_created_at`, `reset_password_sent_at`, `reset_password_token`, `sign_in_count`, `updated_at`) VALUES (NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2011-11-25 15:01:33', NULL, NULL, '', '', NULL, NULL, 'Naveed Tariq Butt', NULL, NULL, NULL, 0, '2011-11-25 15:01:33')
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO `user_tokens` (`created_at`, `provider`, `secret`, `token`, `uid`, `updated_at`, `user_id`) VALUES ('2011-11-25 15:01:33', 'twitter', 'PMBUTMeV97QgutO6NkepKSgSM7NnJfzZpl9gEmJ0qI4', '55580169-N6zFx2vNKiy5SWJE0ScDJcgFD5Md1Y8pUGSJL58HA', '55580169', '2011-11-25 15:01:33', 3)[0m
+[paperclip] Saving attachments.
+  [1m[35m (40.4ms)[0m  COMMIT
+Rendered omniauth_callbacks/facebook.html.erb (0.0ms)
+Completed 200 OK in 131ms (Views: 2.8ms | ActiveRecord: 43.7ms)
+
+
+Started GET "/omniauth_callbacks/oauth_data" for 127.0.0.1 at 2011-11-25 20:01:34 +0500
+  Processing by OmniauthCallbacksController#oauth_data as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/omniauth_callbacks/clear_omniauth" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+  Processing by OmniauthCallbacksController#clear_omniauth as */*
+  [1m[36mUserToken Load (0.2ms)[0m  [1mSELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`provider` = 'twitter' AND `user_tokens`.`uid` = '55580169' LIMIT 1[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 3 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+[paperclip] Scheduling attachments for deletion.
+  [1m[35mUserToken Load (0.4ms)[0m  SELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`user_id` = 3
+  [1m[36mSQL (0.1ms)[0m  [1mDELETE FROM `user_tokens` WHERE `user_tokens`.`id` = 3[0m
+  [1m[35mSQL (0.1ms)[0m  DELETE FROM `users` WHERE `users`.`id` = 3
+[paperclip] Deleting attachments.
+  [1m[36m (51.2ms)[0m  [1mCOMMIT[0m
+Completed 200 OK in 99ms (Views: 0.2ms | ActiveRecord: 55.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+  Processing by PagesController#index as HTML
+Rendered pages/_register_box.html.erb (17.8ms)
+Rendered pages/index.html.erb within layouts/home (18.5ms)
+Rendered shared/_public_header.html.erb (1.5ms)
+Rendered shared/_public_footer.html.erb (0.0ms)
+Completed 200 OK in 45ms (Views: 28.1ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /answers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /comments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /custom-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/routes.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /routes.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /questions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /pages.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /tipsy.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 20:01:37 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 20:01:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.6ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 20:01:38 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 20:01:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 20:01:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 20:01:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 20:01:38 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/users/auth/twitter" for 127.0.0.1 at 2011-11-25 20:02:15 +0500
+  Processing by OmniauthCallbacksController#passthru as HTML
+  Parameters: {"provider"=>"twitter"}
+Rendered public/404.html (0.1ms)
+Completed 404 Not Found in 22ms (Views: 21.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/auth/twitter/callback?oauth_token=tG34sBmWy7kqndNNvB1NeVOnTyxZ5XnGIEAUxH4MA&oauth_verifier=xnGePwizn8LlFNqH21qzazSIhh1MZV5SOFy2yIaVGhE" for 127.0.0.1 at 2011-11-25 20:02:21 +0500
+  Processing by OmniauthCallbacksController#aho as HTML
+  Parameters: {"oauth_token"=>"tG34sBmWy7kqndNNvB1NeVOnTyxZ5XnGIEAUxH4MA", "oauth_verifier"=>"xnGePwizn8LlFNqH21qzazSIhh1MZV5SOFy2yIaVGhE", "provider"=>"twitter"}
+  [1m[35mUserToken Load (0.2ms)[0m  SELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`provider` = 'twitter' AND `user_tokens`.`uid` = '55580169' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO `users` (`avatar_content_type`, `avatar_file_name`, `avatar_file_size`, `avatar_updated_at`, `confirmation_sent_at`, `confirmation_token`, `confirmed_at`, `created_at`, `current_sign_in_at`, `current_sign_in_ip`, `email`, `encrypted_password`, `last_sign_in_at`, `last_sign_in_ip`, `name`, `remember_created_at`, `reset_password_sent_at`, `reset_password_token`, `sign_in_count`, `updated_at`) VALUES (NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2011-11-25 15:02:25', NULL, NULL, '', '', NULL, NULL, 'Naveed Tariq Butt', NULL, NULL, NULL, 0, '2011-11-25 15:02:25')
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO `user_tokens` (`created_at`, `provider`, `secret`, `token`, `uid`, `updated_at`, `user_id`) VALUES ('2011-11-25 15:02:25', 'twitter', 'PMBUTMeV97QgutO6NkepKSgSM7NnJfzZpl9gEmJ0qI4', '55580169-N6zFx2vNKiy5SWJE0ScDJcgFD5Md1Y8pUGSJL58HA', '55580169', '2011-11-25 15:02:25', 4)[0m
+[paperclip] Saving attachments.
+  [1m[35m (47.2ms)[0m  COMMIT
+Rendered omniauth_callbacks/facebook.html.erb (0.0ms)
+Completed 200 OK in 92ms (Views: 2.7ms | ActiveRecord: 50.6ms)
+
+
+Started GET "/omniauth_callbacks/oauth_data" for 127.0.0.1 at 2011-11-25 20:02:25 +0500
+  Processing by OmniauthCallbacksController#oauth_data as */*
+Completed 200 OK in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/omniauth_callbacks/clear_omniauth" for 127.0.0.1 at 2011-11-25 20:02:45 +0500
+  Processing by OmniauthCallbacksController#clear_omniauth as */*
+  [1m[36mUserToken Load (0.3ms)[0m  [1mSELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`provider` = 'twitter' AND `user_tokens`.`uid` = '55580169' LIMIT 1[0m
+  [1m[35mUser Load (0.3ms)[0m  SELECT `users`.* FROM `users` WHERE `users`.`id` = 4 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mBEGIN[0m
+[paperclip] Scheduling attachments for deletion.
+  [1m[35mUserToken Load (0.3ms)[0m  SELECT `user_tokens`.* FROM `user_tokens` WHERE `user_tokens`.`user_id` = 4
+  [1m[36mSQL (0.1ms)[0m  [1mDELETE FROM `user_tokens` WHERE `user_tokens`.`id` = 4[0m
+  [1m[35mSQL (0.1ms)[0m  DELETE FROM `users` WHERE `users`.`id` = 4
+[paperclip] Deleting attachments.
+  [1m[36m (44.1ms)[0m  [1mCOMMIT[0m
+Completed 200 OK in 144ms (Views: 0.2ms | ActiveRecord: 47.9ms)
+
+
+Started GET "/" for 127.0.0.1 at 2011-11-25 20:02:45 +0500
+  Processing by PagesController#index as HTML
+Rendered pages/_register_box.html.erb (70.7ms)
+Rendered pages/index.html.erb within layouts/home (71.4ms)
+Rendered shared/_public_header.html.erb (1.5ms)
+Rendered shared/_public_footer.html.erb (0.0ms)
+Completed 200 OK in 100ms (Views: 82.3ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /comments.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/answers.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /answers.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /jquery_ujs.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform.css?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /uniform.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery-ui.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /jquery-ui.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /jquery.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/main.css?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /main.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/custom-js.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /custom-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.datepicker.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /jquery.datepicker.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.mustache.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /jquery.mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/mustache.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /mustache.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/jquery.wysiwyg.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /jquery.wysiwyg.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/omniauth_callbacks.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /omniauth_callbacks.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/pages.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /pages.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/questions.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /questions.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/routes.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /routes.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/tipsy.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /tipsy.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/uniform-js.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /uniform-js.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/thickbox.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /thickbox.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /users.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.table.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /wysiwyg.table.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/assets/wysiwyg.link.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /wysiwyg.link.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/wysiwyg.image.js?body=1" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+Served asset /wysiwyg.image.js - 304 Not Modified (0ms)
+
+
+Started GET "/images/signup-thumb.jpg" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+
+ActionController::RoutingError (No route matches [GET] "/images/signup-thumb.jpg"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.woff" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.woff"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
+
+
+Started GET "/fonts/klavikaboldbold-webfont.ttf" for 127.0.0.1 at 2011-11-25 20:02:46 +0500
+
+ActionController::RoutingError (No route matches [GET] "/fonts/klavikaboldbold-webfont.ttf"):
+  
+
+Rendered /usr/local/ruby/lib/ruby/gems/1.9.1/gems/actionpack-3.1.1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.5ms)
