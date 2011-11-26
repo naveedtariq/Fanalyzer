@@ -6,10 +6,10 @@ gem 'rails', '3.1.1'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql'
-gem 'devise'
+gem 'devise', '1.4.8'
 gem 'paperclip'
 gem 'therubyracer', '>= 0.9.8'
-gem "oauth2","0.4.1"
+gem "oauth2"
 gem 'omniauth', "0.2.6"
 gem 'acts_as_commentable'
 gem 'js-routes'

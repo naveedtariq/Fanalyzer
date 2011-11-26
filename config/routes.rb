@@ -13,7 +13,10 @@ Fanalyzer::Application.routes.draw do
 
 	match 'home' => 'users#home', :as => 'user_home'
 
-	resources :users
+	resources :users do
+    post 'complete_registration', :on => :collection, :as => :complete_registration
+  end
+
 	resources :comments
 
 	resources :questions do

@@ -10,7 +10,7 @@
 							<button name="Email" id="email-btn" class="emailBtn">Signup with your personal email account</button>
 						</div>
 						<div id="social-reg" style="display:none;">
-						 <%= form_tag('/users/complete_registration', :id => 'social-form', :remote=> true) do %>
+						 <%= form_tag(complete_registration_users_path, :id => 'social-form', :remote=> true) do %>
 								<%= hidden_field_tag 'format', 'json' %>
 								<div class="userInfo"> <img class="social_image" alt="User Thumbnail" src="images/signup-thumb.jpg">
 									<h3 id="user_name">sami mughal</h3>

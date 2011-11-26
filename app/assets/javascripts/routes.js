@@ -199,6 +199,10 @@
   user_home_path: function(options) {
   return Utils.build_path(0, ["/home"], ["format"], arguments)
   },
+// complete_registration_users => /users/complete_registration(.:format)
+  complete_registration_users_path: function(options) {
+  return Utils.build_path(0, ["/users/complete_registration"], ["format"], arguments)
+  },
 // users => /users(.:format)
   users_path: function(options) {
   return Utils.build_path(0, ["/users"], ["format"], arguments)
