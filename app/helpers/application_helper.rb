@@ -26,7 +26,7 @@ module ApplicationHelper
 	def question_hash(question)
 			{ :id => question.id, :title => question.title, :user_name => question.user.name, :user_image => question.user.avatar(:tiny),
 			  :description => truncate(question.description, :length => 150), :question_url => question_path(question),
-				:posted_at => time_ago_in_words(question.created_at), :can_answer => question.owner?(current_user),
+				:posted_at => time_ago_in_words(question.created_at), :can_answer => true,
 				:following => question.user_following?(current_user),
 				:num_answers =>question.answers.count }
 	end
