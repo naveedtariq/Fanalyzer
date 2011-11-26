@@ -12,6 +12,7 @@ gem 'therubyracer', '>= 0.9.8'
 gem "oauth2","0.4.1"
 gem 'omniauth', "0.2.6"
 gem 'acts_as_commentable'
+gem 'js-routes'
 
 
 # Gems used only for assets and not required

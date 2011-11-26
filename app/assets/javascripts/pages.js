@@ -7,7 +7,7 @@ var oauth_callback = function(info){
 		return;
 	}
 	if(info.registered){
-		window.location.href = '/home';
+		window.location.href = Routes.user_home_path();
 		return;
 	}
 	if(info.incomplete){
@@ -30,7 +30,7 @@ var oauth_callback = function(info){
 var oauth_data = function() {
   $.ajax({
     type: "GET",
-    url: "omniauth_callbacks/oauth_data",
+    url: Routes.omniauth_callbacks_oauth_data_path(),
     success: function(data){
       populate_form(data);
       }
@@ -56,7 +56,7 @@ var dynamic_form = function (_main_div, _suc_div, _outer_div){
 	var clear_omniauth = function(){
 		$.ajax({
     type: "POST",
-    url: "omniauth_callbacks/clear_omniauth",
+    url: Routes.omniauth_callbacks_clear_omniauth_path(),
     success: function(){
 				console.log("cleared omniauth");
       }

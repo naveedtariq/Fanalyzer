@@ -12,7 +12,8 @@ $(document).ready(function(){
 		_this = this;
 		$question_id = $(this).parents('.voter_thread').prev('.question_thread').find('#question_id').val();
 		$answer_id = $(this).parents('.voter_thread').find('#answer_id').val();
-		url = '/questions/' + $question_id + "/answers/" + $answer_id + "/down_vote";
+    url = Routes.down_vote_question_answer_path($question_id,$answer_id);
+//		url = '/questions/' + $question_id + "/answers/" + $answer_id + "/down_vote";
 		$.ajax({
 			url: url, 
 			dataType: 'JSON',
@@ -33,7 +34,8 @@ $(document).ready(function(){
 		_this = this;
 		$question_id = $(this).parents('.voter_thread').prev('.question_thread').find('#question_id').val();
 		$answer_id = $(this).parents('.voter_thread').find('#answer_id').val();
-		url = '/questions/' + $question_id + "/answers/" + $answer_id + "/up_vote";
+    url = Routes.up_vote_question_answer_path($question_id,$answer_id);
+//		url = '/questions/' + $question_id + "/answers/" + $answer_id + "/up_vote";
 		$.ajax({
 			url: url, 
 			dataType: 'JSON',
@@ -57,7 +59,8 @@ $(document).ready(function(){
 		console.log($voter_thread);
 		var answer_id = $voter_thread.find('#answer_id').val();
 
-		url = '/comments/';
+//		url = '/comments/';
+    url = Routes.comments_path();
 
 		$.ajax({
 			url: url, 
@@ -80,9 +83,11 @@ $(document).ready(function(){
 		$(".comment-box").remove();
 		$voter_thread = $(this).parents('.voter_thread');
 		$answer = $voter_thread.find('#answer_id');
+//		url = '/comments/';
+    url = Routes.comments_path();
 
 		$.ajax({
-			url: '/comments', 
+			url: url, 
 			dataType: 'JSON',
 			data: 'answer_id='+$answer.val(),
 			type: 'GET',
@@ -117,7 +122,8 @@ $(document).ready(function(){
 		var _this = this;
 		question_id = $(this).parents('.question_thread').find('#question_id').val();
 		answer_text = $(this).parents('.question_thread').find('.answer_area').val();
-		url = '/questions/'+question_id + '/answers';
+    url = Routes.question_answers_path(question_id);
+//		url = '/questions/'+question_id + '/answers';
 
 		$.ajax({
 			url: url, 
@@ -148,7 +154,8 @@ $(document).ready(function(){
 		var _this = this;
 		question_id = $(this).parents().find('.question_thread').find('#question_id').val();
 		answer_text = $(this).parents().find('.answer_area').val();
-		url = '/questions/'+question_id + '/answers';
+    url = Routes.question_answers_path(question_id);
+//		url = '/questions/'+question_id + '/answers';
 
 		$.ajax({
 			url: url, 
