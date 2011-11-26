@@ -1,5 +1,8 @@
   <div id="header-bar">
-    <div id="header-box"> <a href="index.html"><%= image_tag 'logo.png', :id => 'landing-logo' %> </a>
+    <div id="header-box"> 
+    <%= link_to root_path do %>
+      <%= image_tag 'logo.png',:id=>'landing-logo' %>
+    <% end %>
       <div id="signin-box">
           <div id="input-box-container">
 					<%= form_for(resource, :as => resource_name, :id => 'login-form', :url => session_path(resource_name)) do |f| %>
